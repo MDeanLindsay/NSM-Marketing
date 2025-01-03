@@ -15,6 +15,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "NSM Marketing",
   description: "UTM generation tool.",
+  icons: {
+    icon: '/favicon.ico'
+  },
 };
 
 export default function RootLayout({
