@@ -8,8 +8,10 @@ const UTMGenerator = () => {
         source: '',
         medium: '',
         campaign: '',
-        content: ''
+        content: '',
+        sendDate: '' // Add new state field
     });
+
     const [generatedUTM, setGeneratedUTM] = useState('');
 
     const sourceOptions = {
@@ -68,7 +70,8 @@ const UTMGenerator = () => {
             source: '',
             medium: '',
             campaign: '',
-            content: ''
+            content: '',
+            sendDate: ''
         });
         setGeneratedUTM('');
     };
@@ -86,14 +89,23 @@ const UTMGenerator = () => {
         const connector = formData.url.includes('?') ? '&' : '?';
         let utmString = formData.url + connector;
 
+        // Format the campaign name with date if sendDate is selected
+        let campaignName = formData.campaign;
+        if (formData.sendDate) {
+            // Split the date string directly instead of using Date object
+            const [year, month, day] = formData.sendDate.split('-');
+            // Use the last 2 digits of the year
+            const shortYear = year.slice(-2);
+            campaignName = `${formData.campaign}_${month}_${day}_${shortYear}`;
+        }
         if (formData.source) {
             utmString += `&utm_source=${encodeURIComponent(formData.source)}`;
         }
         if (formData.medium) {
             utmString += `&utm_medium=${encodeURIComponent(formData.medium)}`;
         }
-        if (formData.campaign) {
-            utmString += `&utm_campaign=${encodeURIComponent(formData.campaign)}`;
+        if (campaignName) {
+            utmString += `&utm_campaign=${encodeURIComponent(campaignName)}`;
         }
         if (formData.content) {
             utmString += `&utm_content=${encodeURIComponent(formData.content)}`;
@@ -214,6 +226,22 @@ const UTMGenerator = () => {
                             ))}
                         </select>
                     </div>
+
+                    {mode === 'email' && (
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Send Date
+                                <span className="text-gray-500 text-sm ml-2">- When will this be sent?</span>
+                            </label>
+                            <input
+                                type="date"
+                                name="sendDate"
+                                value={formData.sendDate}
+                                onChange={handleInputChange}
+                                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            />
+                        </div>
+                    )}
 
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
