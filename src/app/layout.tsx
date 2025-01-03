@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "NSM Marketing",
+  title: "New Seasons Marketing",
   description: "UTM generation tool.",
   icons: {
     icon: '/favicon.ico'
