@@ -2,14 +2,14 @@ import { useState } from 'react';
 import Image from 'next/image';
 
 const UTMGenerator = () => {
-    const [mode, setMode] = useState<'social' | 'email'>('social');
+    const [mode, setMode] = useState<'email' | 'social'>('email');
     const [formData, setFormData] = useState({
         url: '',
         source: '',
         medium: '',
         campaign: '',
         content: '',
-        sendDate: '' // Add new state field
+        sendDate: ''
     });
 
     const [generatedUTM, setGeneratedUTM] = useState('');
@@ -18,6 +18,7 @@ const UTMGenerator = () => {
         social: [
             { value: 'facebook', label: 'Facebook' },
             { value: 'instagram', label: 'Instagram' },
+            { value: 'meta', label: 'Meta' },
             { value: 'pinterest', label: 'Pinterest' },
             { value: 'tiktok', label: 'TikTok' },
             { value: 'twitter', label: 'Twitter' },
@@ -25,7 +26,7 @@ const UTMGenerator = () => {
         ],
         email: [
             { value: 'clutch', label: 'Clutch' },
-            { value: 'mailchimp', label: 'Mailchimp' }
+            { value: 'mailchimp', label: 'Mailchimp' },
         ]
     };
 
@@ -96,7 +97,7 @@ const UTMGenerator = () => {
             const [year, month, day] = formData.sendDate.split('-');
             // Use the last 2 digits of the year
             const shortYear = year.slice(-2);
-            campaignName = `${formData.campaign}_${month}_${day}_${shortYear}`;
+            campaignName = `${formData.campaign}_${month}${day}${shortYear}`;
         }
         if (formData.source) {
             utmString += `&utm_source=${encodeURIComponent(formData.source)}`;
@@ -126,28 +127,28 @@ const UTMGenerator = () => {
                     alt="NSM Logo"
                     width={192}
                     height={192}
-                    className="mx-auto" // Removed mb-6
+                    className="mx-auto"
                     priority
                 />
                 {/* Mode Toggle Buttons */}
                 <div className="flex justify-center space-x-4 mb-8">
                     <button
-                        onClick={() => handleModeChange('social')}
-                        className={`px-6 py-2 rounded-md font-medium ${mode === 'social'
-                            ? 'bg-blue-500 text-white'
-                            : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                            } transition-colors duration-200`}
-                    >
-                        Socials
-                    </button>
-                    <button
                         onClick={() => handleModeChange('email')}
                         className={`px-6 py-2 rounded-md font-medium ${mode === 'email'
-                            ? 'bg-blue-500 text-white'
+                            ? 'bg-[#AFBE2B] text-white'
                             : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                             } transition-colors duration-200`}
                     >
                         Email
+                    </button>
+                    <button
+                        onClick={() => handleModeChange('social')}
+                        className={`px-6 py-2 rounded-md font-medium ${mode === 'social'
+                            ? 'bg-[#AFBE2B] text-white'
+                            : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                            } transition-colors duration-200`}
+                    >
+                        Socials
                     </button>
                 </div>
 
@@ -227,21 +228,19 @@ const UTMGenerator = () => {
                         </select>
                     </div>
 
-                    {mode === 'email' && (
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Send Date
-                                <span className="text-gray-500 text-sm ml-2">- When will this be sent?</span>
-                            </label>
-                            <input
-                                type="date"
-                                name="sendDate"
-                                value={formData.sendDate}
-                                onChange={handleInputChange}
-                                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                            />
-                        </div>
-                    )}
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                            {mode === 'email' ? 'Send Date' : 'Post Date'}
+                            <span className="text-gray-500 text-sm ml-2">- When is this scheduled?</span>
+                        </label>
+                        <input
+                            type="date"
+                            name="sendDate"
+                            value={formData.sendDate}
+                            onChange={handleInputChange}
+                            className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        />
+                    </div>
 
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -261,7 +260,7 @@ const UTMGenerator = () => {
                     <div className="flex justify-center">
                         <button
                             onClick={generateUTM}
-                            className="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                            className="bg-[#AFBE2B] text-white px-6 py-2 rounded-md hover:bg-[#AFBE2B] focus:outline-none focus:ring-2 focus:ring-[#AFBE2B] focus:ring-offset-2"
                         >
                             Generate UTM
                         </button>
@@ -278,7 +277,7 @@ const UTMGenerator = () => {
                                 />
                                 <button
                                     onClick={copyToClipboard}
-                                    className="bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 whitespace-nowrap"
+                                    className="bg-[#AFBE2B] text-white px-4 py-2 rounded-md hover:bg-[#AFBE2B] focus:outline-none focus:ring-2 focus:ring-[#AFBE2B] focus:ring-offset-2 whitespace-nowrap"
                                 >
                                     Copy
                                 </button>
