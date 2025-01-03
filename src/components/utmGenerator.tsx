@@ -50,7 +50,7 @@ const UTMGenerator = () => {
             { value: 'pinpost', label: 'Pinterest Post' },
         ],
         email: [
-            { value: 'loyalty', label: 'Neighbor Rewards' },
+            { value: 'offer', label: 'Neighbor Rewards' },
             { value: 'sse', label: 'Single Subject' },
             { value: 'wfe', label: 'Weekly Flyer' }
         ]
