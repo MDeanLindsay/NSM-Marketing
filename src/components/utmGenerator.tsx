@@ -135,7 +135,7 @@ const UTMGenerator = () => {
                     <button
                         onClick={() => handleModeChange('email')}
                         className={`px-6 py-2 rounded-md font-medium ${mode === 'email'
-                            ? 'bg-[#AFBE2B] text-white'
+                            ? 'bg-gray-800 text-white'
                             : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                             } transition-colors duration-200`}
                     >
@@ -144,7 +144,7 @@ const UTMGenerator = () => {
                     <button
                         onClick={() => handleModeChange('social')}
                         className={`px-6 py-2 rounded-md font-medium ${mode === 'social'
-                            ? 'bg-[#AFBE2B] text-white'
+                            ? 'bg-gray-800 text-white'
                             : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                             } transition-colors duration-200`}
                     >
@@ -260,7 +260,7 @@ const UTMGenerator = () => {
                     <div className="flex justify-center">
                         <button
                             onClick={generateUTM}
-                            className="bg-[#AFBE2B] text-white px-6 py-2 rounded-md hover:bg-[#AFBE2B] focus:outline-none focus:ring-2 focus:ring-[#AFBE2B] focus:ring-offset-2"
+                            className="bg-gray-800 text-white px-6 py-2 rounded-md hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2"
                         >
                             Generate UTM
                         </button>
@@ -277,7 +277,7 @@ const UTMGenerator = () => {
                                 />
                                 <button
                                     onClick={copyToClipboard}
-                                    className="bg-[#AFBE2B] text-white px-4 py-2 rounded-md hover:bg-[#AFBE2B] focus:outline-none focus:ring-2 focus:ring-[#AFBE2B] focus:ring-offset-2 whitespace-nowrap"
+                                    className="bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 whitespace-nowrap"
                                 >
                                     Copy
                                 </button>
