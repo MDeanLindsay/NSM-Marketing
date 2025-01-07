@@ -5,7 +5,9 @@ import { useState, useEffect } from 'react';
 export default function EmailPage() {
   const [htmlContent, setHtmlContent] = useState('');
   const [mainImageUrl, setMainImageUrl] = useState('');
+  const [landingPageUrl, setLandingPageUrl] = useState('');
   const [emailCopyContent, setEmailCopyContent] = useState('');
+  const [termsContent, setTermsContent] = useState('');
   const [copySuccess, setCopySuccess] = useState('');
 
   // Helper function to convert HTML to plain text
@@ -42,10 +44,22 @@ export default function EmailPage() {
           setMainImageUrl(imgMatch[1]);
         }
 
+        // Extract current landing page URL
+        const linkMatch = data.content.match(/<!-- Landing Page URL -->\s*<a[^>]*href="([^"]*)"/);
+        if (linkMatch && linkMatch[1]) {
+          setLandingPageUrl(linkMatch[1]);
+        }
+
         // Extract email copy content
         const copyMatch = data.content.match(/<!-- Email Copy -->[\s\S]*?(<p>.*?<\/p>\s*<p>.*?<\/p>\s*<p>.*?<\/p>)/s);
         if (copyMatch && copyMatch[1]) {
           setEmailCopyContent(htmlToPlainText(copyMatch[1]));
+        }
+
+        // Extract terms content
+        const termsMatch = data.content.match(/<!-- Terms -->[\s\S]*?<p[^>]*>(.*?)<\/p>/s);
+        if (termsMatch && termsMatch[1]) {
+          setTermsContent(htmlToPlainText(termsMatch[1]));
         }
       });
   }, []);
@@ -58,11 +72,28 @@ export default function EmailPage() {
     setHtmlContent(newContent);
   };
 
+  const updateLandingPage = () => {
+    const newContent = htmlContent.replace(
+      /(<!-- Landing Page URL -->\s*<a[^>]*href=")[^"]*(")/g,
+      `$1${landingPageUrl}$2`
+    );
+    setHtmlContent(newContent);
+  };
+
   const updateEmailCopy = () => {
     const htmlCopy = plainTextToHtml(emailCopyContent);
     const newContent = htmlContent.replace(
       /(<!-- Email Copy -->[\s\S]*?)(<p>.*?<\/p>\s*<p>.*?<\/p>\s*<p>.*?<\/p>)/s,
       `$1${htmlCopy}`
+    );
+    setHtmlContent(newContent);
+  };
+
+  const updateTerms = () => {
+    const htmlTerms = plainTextToHtml(termsContent);
+    const newContent = htmlContent.replace(
+      /(<!-- Terms -->[\s\S]*?<p style="font-size: 12px; margin-top: 20px;">).*?(<\/p>)/s,
+      `$1${htmlTerms.replace(/<\/?p>/g, '')}$2`
     );
     setHtmlContent(newContent);
   };
@@ -82,11 +113,11 @@ export default function EmailPage() {
       {/* Left side controls */}
       <div className="w-1/2 p-4 bg-gray-100">
         <h1 className="text-2xl font-bold mb-4">Email Editor</h1>
-        
+
         {/* Image URL Input */}
         <div className="mb-6">
           <label htmlFor="mainImage" className="block text-sm font-medium text-gray-700 mb-2">
-            Main Image URL
+            Hero Image URL
           </label>
           <div className="flex gap-2">
             <input
@@ -106,21 +137,41 @@ export default function EmailPage() {
           </div>
         </div>
 
+        {/* Landing Page URL Input */}
+        <div className="mb-6">
+          <label htmlFor="landingPage" className="block text-sm font-medium text-gray-700 mb-2">
+            Landing Page URL
+          </label>
+          <div className="flex gap-2">
+            <input
+              type="text"
+              id="landingPage"
+              value={landingPageUrl}
+              onChange={(e) => setLandingPageUrl(e.target.value)}
+              className="flex-1 p-2 border rounded-md"
+              placeholder="Enter landing page URL"
+            />
+            <button
+              onClick={updateLandingPage}
+              className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+            >
+              Update URL
+            </button>
+          </div>
+        </div>
+
         {/* Email Copy Editor */}
         <div className="mb-6">
           <label htmlFor="emailCopy" className="block text-sm font-medium text-gray-700 mb-2">
             Email Copy Content
           </label>
           <div className="flex flex-col gap-2">
-            <p className="text-sm text-gray-600 italic">
-              Enter each paragraph on its own line.
-            </p>
             <textarea
               id="emailCopy"
               value={emailCopyContent}
               onChange={(e) => setEmailCopyContent(e.target.value)}
               className="w-full p-2 border rounded-md font-sans text-sm whitespace-pre-wrap"
-              rows={10}
+              rows={6}
               placeholder="Enter email copy content"
             />
             <button
@@ -131,10 +182,34 @@ export default function EmailPage() {
             </button>
           </div>
         </div>
+
+        {/* Terms & Conditions Editor */}
+        <div className="mb-6">
+          <label htmlFor="terms" className="block text-sm font-medium text-gray-700 mb-2">
+            Terms & Conditions
+          </label>
+          <div className="flex flex-col gap-2">
+            <textarea
+              id="terms"
+              value={termsContent}
+              onChange={(e) => setTermsContent(e.target.value)}
+              className="w-full p-2 border rounded-md font-sans text-sm whitespace-pre-wrap"
+              rows={4}
+              placeholder="Enter terms and conditions"
+            />
+            <button
+              onClick={updateTerms}
+              className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 w-fit"
+            >
+              Update Terms
+            </button>
+          </div>
+        </div>
+
       </div>
-      
-           {/* Right side - Preview and HTML Output */}
-           <div className="w-1/2 h-screen flex flex-col">
+
+      {/* Right side - Preview and HTML Output */}
+      <div className="w-1/2 h-screen flex flex-col">
         {/* Preview Section - Top 75% */}
         <div className="h-4/5 bg-white border-b">
           <iframe
@@ -169,7 +244,7 @@ export default function EmailPage() {
           />
         </div>
       </div>
-      <Analytics/>
+      <Analytics />
     </main>
   );
 }
