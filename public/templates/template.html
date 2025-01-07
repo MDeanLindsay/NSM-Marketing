@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Seasons Market - Special Offer</title>
+
+    <style>
+        /* Reset styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Base styles */
+        body {
+            width: 100%;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Client-specific styles */
+        .ReadMsgBody,
+        .ExternalClass {
+            width: 100%;
+            background-color: #ffffff;
+        }
+
+        .ExternalClass * {
+            line-height: 100%;
+        }
+
+        /* Utility classes */
+        .text-center {
+            text-align: center !important;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Email container */
+        .email-container {
+            max-width: 650px;
+            width: 100% !important;
+            margin: 0 auto;
+            background-color: #ffffff;
+        }
+
+        /* Preview text */
+        .preview-text {
+            font-size: 15px;
+            color: #666666;
+            text-align: center;
+            padding: 10px 20px;
+            line-height: 20px;
+        }
+
+        /* Logo styles */
+        .logo-container {
+            padding: 20px 0;
+        }
+
+        .logo {
+            width: 150px;
+            max-width: 25%;
+            height: auto;
+        }
+
+        /* Content styles */
+        .content-section {
+            background-color: #ffffff;
+            padding: 0 20px;
+        }
+
+        .main-content {
+            font-size: 18px;
+            color: #646464;
+            line-height: 24px;
+            padding: 12px 8px 10px;
+        }
+
+        .main-content p {
+            margin-bottom: 1em;
+            /* This adds space equivalent to a <br> tag */
+        }
+
+        /* Button styles */
+        .button-container {
+            background-color: #cbdb2a;
+            padding: 15px 20px;
+            margin: 15px auto;
+            width: fit-content;
+        }
+
+        .button-text {
+            font-family: Helvetica, Arial, sans-serif;
+            color: #0e1b0f;
+            font-size: 20px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        /* Footer styles */
+        .footer {
+            font-size: 13px;
+            color: #666666;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .footer a {
+            color: #808080 !important;
+            text-decoration: none;
+        }
+
+        /* Social media */
+        .social-icons {
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .social-icons img {
+            width: 100px;
+            margin: 0 5px;
+        }
+
+        /* Responsive styles */
+        @media only screen and (max-width: 650px) {
+            .email-container {
+                width: 100% !important;
+                max-width: 440px;
+            }
+
+            .logo-container {
+                padding: 15px 10px;
+            }
+
+            .main-content {
+                padding: 10px 15px;
+            }
+
+            img:not(.logo) {
+                /* This excludes the logo from generic img styles */
+                height: auto !important;
+                max-width: 100% !important;
+                width: auto !important;
+            }
+
+            .social-icons img {
+                width: 80px !important;
+                margin: 0 3px;
+            }
+        }
+
+        @media only screen and (max-width: 479px) {
+            .email-container {
+                max-width: 340px;
+            }
+
+            .button-container {
+                width: 100%;
+                padding: 12px 15px;
+            }
+
+            .social-icons img {
+                width: 60px !important;
+            }
+
+            .footer {
+                padding: 15px 10px;
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Preview text -->
+    <div style="display: none; max-height: 0px; overflow: hidden;">
+        Save on gorgeously fresh and vitamin-packed food. New Seasons Market special offer inside!
+    </div>
+
+    <center>
+        <table role="presentation" class="email-container" width="650" border="0" cellpadding="0" cellspacing="0"
+            align="center" style="max-width: 650px;">
+            <tr>
+                <td>
+                    <!-- Logo -->
+                    <table role="presentation" width="100%" border="0" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td class="logo-container text-center">
+                                <a href="https://www.newseasonsmarket.com/rewards/?utm_source=offer&utm_medium=email&utm_campaign=offer&utm_content=logo"
+                                    aria-label="Visit New Seasons Market Neighbor Rewards">
+                                    <img src="https://clutch-asset-management.s3.amazonaws.com/newseasonsmarket/NR-logo-600x600.png"
+                                        alt="Neighbor Rewards logo" class="logo">
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- Main Image -->
+                    <table role="presentation" width="100%" border="0" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td>
+                                <a
+                                    href="https://www.newseasonsmarket.com/neighbor-rewards-offer/neighbor-rewards-offer-1-5-25">
+                                    <img src="https://cdn.clutch.com/newseasonsmarket%2FNSM-Offer-feature-20-off-Produce-0125.jpg"
+                                        alt="20% Off Produce" style="width: 100%; height: auto; display: block;">
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- Main Content -->
+                    <table role="presentation" width="100%" border="0" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td class="main-content">
+                                <p><strong>Hi {{firstName default="neighbor"}}!</strong></p>
+                                <!-- Email Copy -->
+                                <p>Eating healthy is easier when you have deliciously fresh greens, fruit, and more on hand.</p>
+                                <p>"Lettuce" help you stay on track with 20% off all our produce, from nutritional superstars like kale and avocados to antioxidant-packed blueberries, plus Satsumas and other citrus to give you that much-needed hit of vitamin C.</p>
+                                <p>Just be sure to punch in your Neighbor Rewards mobile number and <strong>select this offer on the pin pad</strong> when you're ready to use it.</p>
+                                <!-- CTA Button -->
+                                <table role="presentation" class="button-container" border="0" cellpadding="0"
+                                    cellspacing="0" align="center">
+                                    <tr>
+                                        <td>
+                                            <a href="https://www.newseasonsmarket.com/neighbor-rewards-offer/neighbor-rewards-offer-1-5-25"
+                                                class="button-text">
+                                                ADD TO MY ACCOUNT >>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                                <!-- Rewards Status -->
+                                <p style="font-size: 18px; margin-top: 20px;">
+                                    <strong>YOUR NEXT $5 REWARD IS COMING...</strong>
+                                </p>
+                                <p>
+                                    You currently have {{currentPointBalance decimalAmount="0"}} points and only need
+                                    {{nextPointsReward thresholdAmount="500" decimalAmount="0"}} more to reach your next
+                                    $5 Neighbor Reward.
+                                </p>
+
+                                <!-- Terms -->
+                                <p style="font-size: 12px; margin-top: 20px;">
+                                    Valid <strong>December 30 through January 5, 2025</strong>. Must click button to
+                                    load offer to account. Discount can only be used once. Must make a purchase from the
+                                    produce department to receive the discount. Valid in store only. No cash value. Must
+                                    input enrolled Neighbor Rewards mobile number and <strong>select offer on the pin
+                                        pad</strong> during checkout to redeem.
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- Social Media -->
+                    <table role="presentation" width="100%" border="0" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td valign="top" style="padding:0" bgcolor="#ffffff">
+                                <img class="deviceWidth"
+                                    src="https://clutch-asset-management.s3.amazonaws.com/newseasonsmarket/nsm-grey-dotted-line.png"
+                                    alt="dot line" border="0" style="display: block;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="social-icons">
+                                <a href="https://www.instagram.com/newseasonsmarket/"
+                                    aria-label="Follow us on Instagram">
+                                    <img src="https://clutch-asset-management.s3.amazonaws.com/newseasonsmarket/NSM-instacart-logo.png"
+                                        alt="Instagram">
+                                </a>
+                                <a href="https://www.facebook.com/NewSeasonsMarket" aria-label="Follow us on Facebook">
+                                    <img src="https://clutch-asset-management.s3.amazonaws.com/newseasonsmarket/NSM-facebook-logo.png"
+                                        alt="Facebook">
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- Footer -->
+                    <table role="presentation" width="100%" border="0" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td class="footer">
+                                <p><strong>New Seasons Market</strong> | 1300 SE Stark St #401, Portland, OR 97214</p>
+                                <p style="margin-top: 10px;">
+                                    <a href="https://www.newseasonsmarket.com/privacy/">Privacy Policy</a> |
+                                    <a href="https://www.newseasonsmarket.com/rewards/">Preferences</a> |
+                                    <a href="{{optOutLink}}">Unsubscribe</a>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </center>
+</body>
+
+</html>
