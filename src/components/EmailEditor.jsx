@@ -1,22 +1,24 @@
 'use client';
 import { Analytics } from "@vercel/analytics/react"
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 
 export default function EmailPage() {
   const [htmlContent, setHtmlContent] = useState('');
   const [mainImageUrl, setMainImageUrl] = useState('');
   const [landingPageUrl, setLandingPageUrl] = useState('');
+  const [previewText, setPreviewText] = useState('');
   const [emailCopyContent, setEmailCopyContent] = useState('');
   const [termsContent, setTermsContent] = useState('');
   const [copySuccess, setCopySuccess] = useState('');
+  const [activeButton, setActiveButton] = useState('NR');
+
 
   // Helper function to convert HTML to plain text
   const htmlToPlainText = (html) => {
     return html
       .replace(/<p>/g, '')
       .replace(/<\/p>/g, '\n')
-      .replace(/<strong>/g, '')
-      .replace(/<\/strong>/g, '')
       .split('\n')
       .map(line => line.trim())
       .join('\n')
@@ -50,6 +52,12 @@ export default function EmailPage() {
           setLandingPageUrl(linkMatch[1]);
         }
 
+        // Extract preview text
+        const previewMatch = data.content.match(/<!-- Preview Text -->[\s\S]*?<p[^>]*>(.*?)<\/p>/);
+        if (previewMatch && previewMatch[1]) {
+          setPreviewText(htmlToPlainText(previewMatch[1]));
+        }
+
         // Extract email copy content
         const copyMatch = data.content.match(/<!-- Email Copy -->[\s\S]*?(<p>.*?<\/p>\s*<p>.*?<\/p>\s*<p>.*?<\/p>)/s);
         if (copyMatch && copyMatch[1]) {
@@ -61,6 +69,7 @@ export default function EmailPage() {
         if (termsMatch && termsMatch[1]) {
           setTermsContent(htmlToPlainText(termsMatch[1]));
         }
+
       });
   }, []);
 
@@ -80,6 +89,16 @@ export default function EmailPage() {
     setHtmlContent(newContent);
   };
 
+  const updatePreviewText = () => {
+    const htmlPreview = plainTextToHtml(previewText);
+    const newContent = htmlContent.replace(
+      /(<!-- Preview Text -->[\s\S]*?<p[^>]*>)(.*?)(<\/p>)/,
+      `$1${previewText}$3`
+    );
+    setHtmlContent(newContent);
+  };
+
+
   const updateEmailCopy = () => {
     const htmlCopy = plainTextToHtml(emailCopyContent);
     const newContent = htmlContent.replace(
@@ -92,8 +111,8 @@ export default function EmailPage() {
   const updateTerms = () => {
     const htmlTerms = plainTextToHtml(termsContent);
     const newContent = htmlContent.replace(
-      /(<!-- Terms -->[\s\S]*?<p style="font-size: 12px; margin-top: 20px;">).*?(<\/p>)/s,
-      `$1${htmlTerms.replace(/<\/?p>/g, '')}$2`
+      /(<!-- Terms -->[\s\S]*?<p[^>]*>)(.*?)(<\/p>)/s,
+      `$1${htmlTerms.replace(/<\/?p>/g, '')}$3`
     );
     setHtmlContent(newContent);
   };
@@ -112,8 +131,44 @@ export default function EmailPage() {
     <main className="min-h-screen flex">
       {/* Left side controls */}
       <div className="w-1/2 p-4 bg-gray-100">
-        <h1 className="text-2xl font-bold mb-4">Email Editor</h1>
-
+        <Image
+          src="/images/nsm.png"
+          alt="NSM Logo"
+          width={192}
+          height={192}
+          className="mx-auto"
+          priority
+        />
+        {/* Mode Toggle Buttons */}
+        <div className="flex justify-center space-x-4 mb-8">
+          <button
+            className={`px-6 py-2 rounded-md font-medium ${activeButton === 'NR'
+              ? 'bg-gray-800 text-white'
+              : 'bg-gray-200 text-gray-700 hover:bg-gray-800 hover:text-white'
+              } transition-colors duration-200`}
+            onClick={() => setActiveButton('NR')}
+          >
+            NR
+          </button>
+          <button
+            className={`px-6 py-2 rounded-md font-medium ${activeButton === 'WFE'
+              ? 'bg-gray-800 text-white'
+              : 'bg-gray-200 text-gray-700 hover:bg-gray-800 hover:text-white'
+              } transition-colors duration-200`}
+            onClick={() => setActiveButton('WFE')}
+          >
+            WFE
+          </button>
+          <button
+            className={`px-6 py-2 rounded-md font-medium ${activeButton === 'SSE'
+              ? 'bg-gray-800 text-white'
+              : 'bg-gray-200 text-gray-700 hover:bg-gray-800 hover:text-white'
+              } transition-colors duration-200`}
+            onClick={() => setActiveButton('SSE')}
+          >
+            SSE
+          </button>
+        </div>
         {/* Image URL Input */}
         <div className="mb-6">
           <label htmlFor="mainImage" className="block text-sm font-medium text-gray-700 mb-2">
@@ -132,7 +187,7 @@ export default function EmailPage() {
               onClick={updateMainImage}
               className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
             >
-              Update Image
+              Update
             </button>
           </div>
         </div>
@@ -155,7 +210,30 @@ export default function EmailPage() {
               onClick={updateLandingPage}
               className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
             >
-              Update URL
+              Update
+            </button>
+          </div>
+        </div>
+
+        {/* Preview Text Input */}
+        <div className="mb-6">
+          <label htmlFor="previewText" className="block text-sm font-medium text-gray-700 mb-2">
+            Preview Text
+          </label>
+          <div className="flex gap-2">
+            <input
+              type="text"
+              id="previewText"
+              value={previewText}
+              onChange={(e) => setPreviewText(e.target.value)}
+              className="flex-1 p-2 border rounded-md"
+              placeholder="Enter preview text"
+            />
+            <button
+              onClick={updatePreviewText}
+              className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+            >
+              Update
             </button>
           </div>
         </div>
@@ -171,14 +249,14 @@ export default function EmailPage() {
               value={emailCopyContent}
               onChange={(e) => setEmailCopyContent(e.target.value)}
               className="w-full p-2 border rounded-md font-sans text-sm whitespace-pre-wrap"
-              rows={6}
+              rows={5}
               placeholder="Enter email copy content"
             />
             <button
               onClick={updateEmailCopy}
               className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 w-fit"
             >
-              Update Copy
+              Update
             </button>
           </div>
         </div>
@@ -194,14 +272,14 @@ export default function EmailPage() {
               value={termsContent}
               onChange={(e) => setTermsContent(e.target.value)}
               className="w-full p-2 border rounded-md font-sans text-sm whitespace-pre-wrap"
-              rows={4}
+              rows={3}
               placeholder="Enter terms and conditions"
             />
             <button
               onClick={updateTerms}
               className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 w-fit"
             >
-              Update Terms
+              Update
             </button>
           </div>
         </div>

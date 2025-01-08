@@ -3,16 +3,18 @@ import Image from 'next/image';
 
 const UTMGenerator = () => {
     const [mode, setMode] = useState<'email' | 'social'>('email');
-    const [formData, setFormData] = useState({
-        url: '',
-        source: '',
-        medium: '',
-        campaign: '',
-        content: '',
-        sendDate: ''
-    });
-
-    const [generatedUTM, setGeneratedUTM] = useState('');
+    const [rows, setRows] = useState([{
+        id: '1',
+        formData: {
+            url: '',
+            source: '',
+            medium: '',
+            campaign: '',
+            content: '',
+            sendDate: ''
+        },
+        generatedUTM: ''
+    }]);
 
     const sourceOptions = {
         social: [
@@ -56,72 +58,111 @@ const UTMGenerator = () => {
         ]
     };
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const handleInputChange = (rowId: string, e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: value
-        }));
+        setRows(prevRows => prevRows.map(row =>
+            row.id === rowId
+                ? {
+                    ...row,
+                    formData: {
+                        ...row.formData,
+                        [name]: value
+                    }
+                }
+                : row
+        ));
     };
 
     const handleModeChange = (newMode: 'social' | 'email') => {
         setMode(newMode);
-        setFormData({
-            url: formData.url, // Preserve the URL
-            source: '',
-            medium: '',
-            campaign: '',
-            content: '',
-            sendDate: ''
-        });
-        setGeneratedUTM('');
+        setRows(prevRows => prevRows.map(row => ({
+            ...row,
+            formData: {
+                url: row.formData.url, // Preserve the URL
+                source: '',
+                medium: '',
+                campaign: '',
+                content: '',
+                sendDate: ''
+            },
+            generatedUTM: ''
+        })));
     };
 
-    const generateUTM = () => {
-        if (!formData.url) {
-            setGeneratedUTM('Please add the link.');
+    const addNewRow = () => {
+        setRows(prevRows => [...prevRows, {
+            id: Date.now().toString(),
+            formData: {
+                url: '',
+                source: '',
+                medium: '',
+                campaign: '',
+                content: '',
+                sendDate: ''
+            },
+            generatedUTM: ''
+        }]);
+    };
+
+
+    const generateUTM = (rowId: string) => {
+        const row = rows.find(r => r.id === rowId);
+        if (!row) return;
+
+        if (!row.formData.url) {
+            setRows(prevRows => prevRows.map(r =>
+                r.id === rowId
+                    ? { ...r, generatedUTM: 'Add the url.' }
+                    : r
+            ));
             return;
         }
-        if (!formData.campaign) {
-            setGeneratedUTM('Please add a campaign name.');
+        if (!row.formData.campaign) {
+            setRows(prevRows => prevRows.map(r =>
+                r.id === rowId
+                    ? { ...r, generatedUTM: 'Add a campaign name.' }
+                    : r
+            ));
             return;
         }
 
-        const connector = formData.url.includes('?') ? '&' : '?';
-        let utmString = formData.url + connector;
+        const connector = row.formData.url.includes('?') ? '&' : '?';
+        let utmString = row.formData.url + connector;
 
-        // Format the campaign name with date if sendDate is selected
-        let campaignName = formData.campaign;
-        if (formData.sendDate) {
-            // Split the date string directly instead of using Date object
-            const [year, month, day] = formData.sendDate.split('-');
-            // Use the last 2 digits of the year
+        let campaignName = row.formData.campaign;
+        if (row.formData.sendDate) {
+            const [year, month, day] = row.formData.sendDate.split('-');
             const shortYear = year.slice(-2);
-            campaignName = `${formData.campaign}_${month}${day}${shortYear}`;
+            campaignName = `${row.formData.campaign}_${month}${day}${shortYear}`;
         }
-        if (formData.source) {
-            utmString += `&utm_source=${encodeURIComponent(formData.source)}`;
+        if (row.formData.source) {
+            utmString += `&utm_source=${encodeURIComponent(row.formData.source)}`;
         }
-        if (formData.medium) {
-            utmString += `&utm_medium=${encodeURIComponent(formData.medium)}`;
+        if (row.formData.medium) {
+            utmString += `&utm_medium=${encodeURIComponent(row.formData.medium)}`;
         }
         if (campaignName) {
             utmString += `&utm_campaign=${encodeURIComponent(campaignName)}`;
         }
-        if (formData.content) {
-            utmString += `&utm_content=${encodeURIComponent(formData.content)}`;
+        if (row.formData.content) {
+            utmString += `&utm_content=${encodeURIComponent(row.formData.content)}`;
         }
 
-        setGeneratedUTM(utmString);
+        setRows(prevRows => prevRows.map(r =>
+            r.id === rowId
+                ? { ...r, generatedUTM: utmString }
+                : r
+        ));
     };
 
-    const copyToClipboard = () => {
-        navigator.clipboard.writeText(generatedUTM);
+    const copyToClipboard = (utmString: string) => {
+        navigator.clipboard.writeText(utmString);
     };
+
 
     return (
         <div className="flex justify-center items-center min-h-screen p-4">
-            <div className="bg-white rounded-lg shadow-lg p-4 w-[600px] mx-auto">
+            <div className="bg-white rounded-lg shadow-lg p-4 w-[1500px] min-h-[400px] mx-auto flex flex-col">
                 <Image
                     src="/images/nsm.png"
                     alt="NSM Logo"
@@ -152,138 +193,179 @@ const UTMGenerator = () => {
                     </button>
                 </div>
 
-                <div className="space-y-6">
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                            URL
-                            <span className="text-gray-500 text-sm ml-2">- What is the landing page?</span>
-                        </label>
-                        <input
-                            type="text"
-                            name="url"
-                            value={formData.url}
-                            onChange={handleInputChange}
-                            className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        //placeholder="Enter URL"
-                        />
-                    </div>
+                {/* UTM Rows */}
+                <div className="flex flex-col">
+                    {rows.map((row, index) => (
+                        <div key={row.id}>
+                            <div className="flex flex-row gap-2 py-4">
+                                {/* Add Button Column */}
+                                <div className="w-[38px] flex items-end">
+                                    {index === 0 && (
+                                        <button
+                                            onClick={addNewRow}
+                                            className="h-[38px] w-[38px] flex items-center justify-center border border-gray-300 rounded-md text-gray-600 hover:text-gray-800 hover:border-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        >
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                                            </svg>
+                                        </button>
+                                    )}
+                                </div>
 
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Source
-                            <span className="text-gray-500 text-sm ml-2">- What platform?</span>
-                        </label>
-                        <select
-                            name="source"
-                            value={formData.source}
-                            onChange={handleInputChange}
-                            className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        >
-                            <option value="" disabled></option>
-                            {sourceOptions[mode].map(option => (
-                                <option key={option.value} value={option.value}>
-                                    {option.label}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
+                                {/* Left side inputs */}
+                                <div className="flex-1 flex gap-2">
+                                    <div className="w-[200px]">
+                                        {index === 0 && (
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                                URL
+                                            </label>
+                                        )}
+                                        <input
+                                            type="text"
+                                            name="url"
+                                            value={row.formData.url}
+                                            onChange={(e) => handleInputChange(row.id, e)}
+                                            className={`w-full h-[38px] px-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${index === 0 ? '' : 'mt-6'}`}
+                                        />
+                                    </div>
 
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Medium
-                            <span className="text-gray-500 text-sm ml-2">- How is it being shared?</span>
-                        </label>
-                        <select
-                            name="medium"
-                            value={formData.medium}
-                            onChange={handleInputChange}
-                            className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        >
-                            <option value="" disabled></option>
-                            {mediumOptions[mode].map(option => (
-                                <option key={option.value} value={option.value}>
-                                    {option.label}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
+                                    <div className="w-[150px]">
+                                        {index === 0 && (
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                                Source
+                                            </label>
+                                        )}
+                                        <select
+                                            name="source"
+                                            value={row.formData.source}
+                                            onChange={(e) => handleInputChange(row.id, e)}
+                                            className={`w-full h-[38px] px-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${index === 0 ? '' : 'mt-6'}`}
+                                        >
+                                            <option value="" disabled></option>
+                                            {sourceOptions[mode].map(option => (
+                                                <option key={option.value} value={option.value}>
+                                                    {option.label}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
 
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Campaign
-                            <span className="text-gray-500 text-sm ml-2">- What is the campaign for?</span>
-                        </label>
-                        <select
-                            name="campaign"
-                            value={formData.campaign}
-                            onChange={handleInputChange}
-                            className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        >
-                            <option value="" disabled></option>
-                            {campaignOptions[mode].map(option => (
-                                <option key={option.value} value={option.value}>
-                                    {option.label}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
+                                    <div className="w-[150px]">
+                                        {index === 0 && (
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                                Medium
+                                            </label>
+                                        )}
+                                        <select
+                                            name="medium"
+                                            value={row.formData.medium}
+                                            onChange={(e) => handleInputChange(row.id, e)}
+                                            className={`w-full h-[38px] px-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${index === 0 ? '' : 'mt-6'}`}
+                                        >
+                                            <option value="" disabled></option>
+                                            {mediumOptions[mode].map(option => (
+                                                <option key={option.value} value={option.value}>
+                                                    {option.label}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
 
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                            {mode === 'email' ? 'Send Date' : 'Post Date'}
-                            <span className="text-gray-500 text-sm ml-2">- When is this scheduled?</span>
-                        </label>
-                        <input
-                            type="date"
-                            name="sendDate"
-                            value={formData.sendDate}
-                            onChange={handleInputChange}
-                            className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        />
-                    </div>
+                                    <div className="w-[150px]">
+                                        {index === 0 && (
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                                Campaign
+                                            </label>
+                                        )}
+                                        <select
+                                            name="campaign"
+                                            value={row.formData.campaign}
+                                            onChange={(e) => handleInputChange(row.id, e)}
+                                            className={`w-full h-[38px] px-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${index === 0 ? '' : 'mt-6'}`}
+                                        >
+                                            <option value="" disabled></option>
+                                            {campaignOptions[mode].map(option => (
+                                                <option key={option.value} value={option.value}>
+                                                    {option.label}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
 
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Content
-                            <span className="text-gray-500 text-sm ml-2">- Any sub-descriptors?</span>
-                        </label>
-                        <input
-                            type="text"
-                            name="content"
-                            value={formData.content}
-                            onChange={handleInputChange}
-                            className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        //placeholder="Enter content descriptor"
-                        />
-                    </div>
+                                    <div className="w-[150px]">
+                                        {index === 0 && (
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                                {mode === 'email' ? 'Send Date' : 'Post Date'}
+                                            </label>
+                                        )}
+                                        <input
+                                            type="date"
+                                            name="sendDate"
+                                            value={row.formData.sendDate}
+                                            onChange={(e) => handleInputChange(row.id, e)}
+                                            className={`w-full h-[38px] px-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${index === 0 ? '' : 'mt-6'}`}
+                                        />
+                                    </div>
 
-                    <div className="flex justify-center">
-                        <button
-                            onClick={generateUTM}
-                            className="bg-gray-800 text-white px-6 py-2 rounded-md hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2"
-                        >
-                            Generate UTM
-                        </button>
-                    </div>
+                                    <div className="w-[150px]">
+                                        {index === 0 && (
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                                Content
+                                            </label>
+                                        )}
+                                        <input
+                                            type="text"
+                                            name="content"
+                                            value={row.formData.content}
+                                            onChange={(e) => handleInputChange(row.id, e)}
+                                            className={`w-full h-[38px] px-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${index === 0 ? '' : 'mt-6'}`}
+                                        />
+                                    </div>
+                                </div>
 
-                    {generatedUTM && (
-                        <div className="mt-6 p-4 bg-gray-50 rounded-md">
-                            <div className="flex items-center gap-4">
-                                <input
-                                    type="text"
-                                    value={generatedUTM}
-                                    readOnly
-                                    className="flex-1 p-2 border border-gray-300 rounded-md bg-white overflow-x-auto"
-                                />
-                                <button
-                                    onClick={copyToClipboard}
-                                    className="bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 whitespace-nowrap"
-                                >
-                                    Copy
-                                </button>
+                                {/* Generate and Output section */}
+                                <div className="flex items-end">
+                                    <button
+                                        onClick={() => generateUTM(row.id)}
+                                        className="bg-gray-800 text-white h-[38px] px-6 rounded-md hover:bg-gray-400"
+                                    >
+                                        Generate
+                                    </button>
+                                </div>
+
+                                <div className="w-[400px] flex items-end">
+                                    <div className="w-full bg-gray-50 rounded-md">
+                                        <div className="flex items-center gap-4">
+                                            <input
+                                                type="text"
+                                                value={row.generatedUTM}
+                                                readOnly
+                                                placeholder=""
+                                                className={`flex-1 h-[38px] px-2 border border-gray-300 rounded-md bg-white overflow-x-auto ${!row.generatedUTM ? 'text-gray-400' : ''}`}
+                                            />
+                                            <button
+                                                onClick={() => copyToClipboard(row.generatedUTM)}
+                                                disabled={!row.generatedUTM}
+                                                className={`${row.generatedUTM
+                                                        ? 'bg-gray-800 hover:bg-gray-400'
+                                                        : 'bg-gray-400 cursor-not-allowed'
+                                                    } text-white h-[38px] px-4 rounded-md whitespace-nowrap`}
+                                            >
+                                                Copy
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+
+                            {/* Divider line */}
+                            {index < rows.length - 1 && (
+                                <div className="px-2">
+                                    <div className="border-b border-gray-200"></div>
+                                </div>
+                            )}
                         </div>
-                    )}
+                    ))}
                 </div>
             </div>
         </div>
