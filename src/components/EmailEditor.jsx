@@ -1,7 +1,6 @@
 'use client';
 import { Analytics } from "@vercel/analytics/react"
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
 
 export default function EmailPage() {
   const [htmlContent, setHtmlContent] = useState('');
@@ -128,17 +127,9 @@ export default function EmailPage() {
   };
 
   return (
-    <main className="min-h-screen flex">
+    <main className="flex h-[calc(100vh-100px)]">
       {/* Left side controls */}
-      <div className="w-1/2 p-4 bg-gray-100">
-        <Image
-          src="/images/nsm.png"
-          alt="NSM Logo"
-          width={192}
-          height={192}
-          className="mx-auto"
-          priority
-        />
+      <div className="w-1/2 p-4 bg-gray-100 overflow-y-auto">
         {/* Mode Toggle Buttons */}
         <div className="flex justify-center space-x-4 mb-8">
           <button
@@ -287,9 +278,9 @@ export default function EmailPage() {
       </div>
 
       {/* Right side - Preview and HTML Output */}
-      <div className="w-1/2 h-screen flex flex-col">
-        {/* Preview Section - Top 75% */}
-        <div className="h-4/5 bg-white border-b">
+      <div className="w-1/2 flex flex-col overflow-hidden">
+        {/* Preview Section */}
+        <div className="flex-grow bg-white border-b overflow-auto">
           <iframe
             srcDoc={htmlContent}
             className="w-full h-full border-0"
@@ -298,8 +289,8 @@ export default function EmailPage() {
           />
         </div>
 
-        {/* HTML Output Section - Bottom 25% */}
-        <div className="h-1/5 p-4 bg-gray-50">
+        {/* HTML Output Section */}
+        <div className="h-[150px] p-4 bg-gray-50 flex flex-col">
           <div className="flex justify-between items-center mb-2">
             <label className="block text-sm font-medium text-gray-700">
               HTML Output
@@ -317,7 +308,7 @@ export default function EmailPage() {
           <textarea
             readOnly
             value={htmlContent}
-            className="w-full h-[calc(100%-2rem)] p-2 border rounded-md font-mono text-sm bg-white"
+            className="flex-1 w-full p-2 border rounded-md font-mono text-sm bg-white"
             style={{ resize: 'none' }}
           />
         </div>

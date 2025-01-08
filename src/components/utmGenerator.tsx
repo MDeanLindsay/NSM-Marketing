@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import Image from 'next/image';
 
 const UTMGenerator = () => {
     const [mode, setMode] = useState<'email' | 'social'>('email');
@@ -161,16 +160,9 @@ const UTMGenerator = () => {
 
 
     return (
-        <div className="flex justify-center items-center min-h-screen p-4">
-            <div className="bg-white rounded-lg shadow-lg p-4 w-[1500px] min-h-[400px] mx-auto flex flex-col">
-                <Image
-                    src="/images/nsm.png"
-                    alt="NSM Logo"
-                    width={192}
-                    height={192}
-                    className="mx-auto"
-                    priority
-                />
+        <div className="flex justify-center items-center h-[calc(100vh-100px)] p-4">
+            <div className="bg-gray-100 rounded-lg shadow-lg p-4 w-[1500px] min-h-[400px] mx-auto flex flex-col">
+            
                 {/* Mode Toggle Buttons */}
                 <div className="flex justify-center space-x-4 mb-8">
                     <button
