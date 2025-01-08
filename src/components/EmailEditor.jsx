@@ -133,7 +133,7 @@ export default function EmailPage() {
         {/* Mode Toggle Buttons */}
         <div className="flex justify-center space-x-4 mb-8">
           <button
-            className={`px-6 py-2 rounded-md font-medium ${activeButton === 'NR'
+            className={`px-6 py-2 rounded-md font-medium font-nsm ${activeButton === 'NR'
               ? 'bg-gray-800 text-white'
               : 'bg-gray-200 text-gray-700 hover:bg-gray-800 hover:text-white'
               } transition-colors duration-200`}
@@ -142,7 +142,7 @@ export default function EmailPage() {
             NR
           </button>
           <button
-            className={`px-6 py-2 rounded-md font-medium ${activeButton === 'WFE'
+            className={`px-6 py-2 rounded-md font-medium font-nsm ${activeButton === 'WFE'
               ? 'bg-gray-800 text-white'
               : 'bg-gray-200 text-gray-700 hover:bg-gray-800 hover:text-white cursor-not-allowed'
               } transition-colors duration-200`}
@@ -151,7 +151,7 @@ export default function EmailPage() {
             WFE
           </button>
           <button
-            className={`px-6 py-2 rounded-md font-medium ${activeButton === 'SSE'
+            className={`px-6 py-2 rounded-md font-medium font-nsm ${activeButton === 'SSE'
               ? 'bg-gray-800 text-white'
               : 'bg-gray-200 text-gray-700 hover:bg-gray-800 hover:text-white cursor-not-allowed'
               } transition-colors duration-200`}
@@ -162,7 +162,7 @@ export default function EmailPage() {
         </div>
         {/* Image URL Input */}
         <div className="mb-6">
-          <label htmlFor="mainImage" className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="mainImage" className="block text-sm font-medium font-nsm text-gray-700 mb-2">
             Hero Image URL
           </label>
           <div className="flex gap-2">
@@ -172,11 +172,11 @@ export default function EmailPage() {
               value={mainImageUrl}
               onChange={(e) => setMainImageUrl(e.target.value)}
               className="flex-1 p-2 border rounded-md"
-              placeholder="Enter image URL"
+              placeholder="Image URL"
             />
             <button
               onClick={updateMainImage}
-              className="px-4 py-2 bg-gray-600 text-white hover:bg-gray-800 rounded-md"
+              className="px-4 py-2 bg-gray-800 text-white font-nsm hover:bg-gray-700 rounded-md"
             >
               Update
             </button>
@@ -185,7 +185,7 @@ export default function EmailPage() {
 
         {/* Landing Page URL Input */}
         <div className="mb-6">
-          <label htmlFor="landingPage" className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="landingPage" className="block text-sm font-medium font-nsm text-gray-700 mb-2">
             Landing Page URL
           </label>
           <div className="flex gap-2">
@@ -195,11 +195,11 @@ export default function EmailPage() {
               value={landingPageUrl}
               onChange={(e) => setLandingPageUrl(e.target.value)}
               className="flex-1 p-2 border rounded-md"
-              placeholder="Enter landing page URL"
+              placeholder="Landing Page URL"
             />
             <button
               onClick={updateLandingPage}
-              className="px-4 py-2 bg-gray-600 text-white hover:bg-gray-800 rounded-md"
+              className="px-4 py-2 bg-gray-800 text-white font-nsm hover:bg-gray-700 rounded-md"
             >
               Update
             </button>
@@ -208,7 +208,7 @@ export default function EmailPage() {
 
         {/* Preview Text Input */}
         <div className="mb-6">
-          <label htmlFor="previewText" className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="previewText" className="block text-sm font-medium font-nsm text-gray-700 mb-2">
             Preview Text
           </label>
           <div className="flex gap-2">
@@ -218,11 +218,11 @@ export default function EmailPage() {
               value={previewText}
               onChange={(e) => setPreviewText(e.target.value)}
               className="flex-1 p-2 border rounded-md"
-              placeholder="Enter preview text"
+              placeholder="Preview Text"
             />
             <button
               onClick={updatePreviewText}
-              className="px-4 py-2 bg-gray-600 text-white hover:bg-gray-800 rounded-md"
+              className="px-4 py-2 bg-gray-800 text-white font-nsm hover:bg-gray-700 rounded-md"
             >
               Update
             </button>
@@ -231,7 +231,7 @@ export default function EmailPage() {
 
         {/* Email Copy Editor */}
         <div className="mb-6">
-          <label htmlFor="emailCopy" className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="emailCopy" className="block text-sm font-medium font-nsm text-gray-700 mb-2">
             Email Copy Content
           </label>
           <div className="flex flex-col gap-2">
@@ -241,11 +241,11 @@ export default function EmailPage() {
               onChange={(e) => setEmailCopyContent(e.target.value)}
               className="w-full p-2 border rounded-md font-sans text-sm whitespace-pre-wrap"
               rows={5}
-              placeholder="Enter email copy content"
+              placeholder="Email Copy"
             />
             <button
               onClick={updateEmailCopy}
-              className="px-4 py-2 bg-gray-600 text-white hover:bg-gray-800 rounded-md w-fit"
+              className="px-4 py-2 bg-gray-800 text-white font-nsm hover:bg-gray-700 rounded-md w-fit"
             >
               Update
             </button>
@@ -254,7 +254,7 @@ export default function EmailPage() {
 
         {/* Terms & Conditions Editor */}
         <div className="mb-6">
-          <label htmlFor="terms" className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="terms" className="block text-sm font-medium font-nsm text-gray-700 mb-2">
             Terms & Conditions
           </label>
           <div className="flex flex-col gap-2">
@@ -264,11 +264,11 @@ export default function EmailPage() {
               onChange={(e) => setTermsContent(e.target.value)}
               className="w-full p-2 border rounded-md font-sans text-sm whitespace-pre-wrap"
               rows={3}
-              placeholder="Enter terms and conditions"
+              placeholder="Terms & Conditions"
             />
             <button
               onClick={updateTerms}
-              className="px-4 py-2 bg-gray-600 text-white hover:bg-gray-800 rounded-md w-fit"
+              className="px-4 py-2 bg-gray-800 text-white font-nsm hover:bg-gray-700 rounded-md w-fit"
             >
               Update
             </button>
@@ -292,16 +292,16 @@ export default function EmailPage() {
         {/* HTML Output Section */}
         <div className="h-[150px] p-4 bg-gray-50 flex flex-col">
           <div className="flex justify-between items-center mb-2">
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium font-nsm text-gray-700">
               HTML Output
             </label>
             <div className="flex items-center gap-2">
               <span className="text-sm text-green-600">{copySuccess}</span>
               <button
                 onClick={copyToClipboard}
-                className="px-3 py-1 bg-gray-600 text-white hover:bg-gray-800 rounded-md text-sm"
+                className="px-3 py-1 bg-gray-800 text-white font-nsm hover:bg-gray-700 rounded-md text-sm"
               >
-                Copy HTML
+                Copy Output
               </button>
             </div>
           </div>

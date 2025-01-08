@@ -167,7 +167,7 @@ const UTMGenerator = () => {
                 <div className="flex justify-center space-x-4 mb-8">
                     <button
                         onClick={() => handleModeChange('email')}
-                        className={`px-6 py-2 rounded-md font-medium ${mode === 'email'
+                        className={`px-6 py-2 rounded-md font-medium font-nsm ${mode === 'email'
                             ? 'bg-gray-800 text-white'
                             : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                             } transition-colors duration-200`}
@@ -176,7 +176,7 @@ const UTMGenerator = () => {
                     </button>
                     <button
                         onClick={() => handleModeChange('social')}
-                        className={`px-6 py-2 rounded-md font-medium ${mode === 'social'
+                        className={`px-6 py-2 rounded-md font-medium font-nsm ${mode === 'social'
                             ? 'bg-gray-800 text-white'
                             : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                             } transition-colors duration-200`}
@@ -208,7 +208,7 @@ const UTMGenerator = () => {
                                 <div className="flex-1 flex gap-2">
                                     <div className="w-[200px]">
                                         {index === 0 && (
-                                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            <label className="block text-sm font-medium font-nsm text-gray-700 mb-2">
                                                 URL
                                             </label>
                                         )}
@@ -217,13 +217,13 @@ const UTMGenerator = () => {
                                             name="url"
                                             value={row.formData.url}
                                             onChange={(e) => handleInputChange(row.id, e)}
-                                            className={`w-full h-[38px] px-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${index === 0 ? '' : 'mt-6'}`}
+                                            className={`w-full h-[38px] px-2 border border-gray-300 rounded-md ${index === 0 ? '' : 'mt-6'}`}
                                         />
                                     </div>
 
                                     <div className="w-[150px]">
                                         {index === 0 && (
-                                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            <label className="block text-sm font-medium font-nsm text-gray-700 mb-2">
                                                 Source
                                             </label>
                                         )}
@@ -231,7 +231,7 @@ const UTMGenerator = () => {
                                             name="source"
                                             value={row.formData.source}
                                             onChange={(e) => handleInputChange(row.id, e)}
-                                            className={`w-full h-[38px] px-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${index === 0 ? '' : 'mt-6'}`}
+                                            className={`w-full h-[38px] px-2 border border-gray-300 rounded-md ${index === 0 ? '' : 'mt-6'}`}
                                         >
                                             <option value="" disabled></option>
                                             {sourceOptions[mode].map(option => (
@@ -244,7 +244,7 @@ const UTMGenerator = () => {
 
                                     <div className="w-[150px]">
                                         {index === 0 && (
-                                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            <label className="block text-sm font-medium font-nsm text-gray-700 mb-2">
                                                 Medium
                                             </label>
                                         )}
@@ -252,7 +252,7 @@ const UTMGenerator = () => {
                                             name="medium"
                                             value={row.formData.medium}
                                             onChange={(e) => handleInputChange(row.id, e)}
-                                            className={`w-full h-[38px] px-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${index === 0 ? '' : 'mt-6'}`}
+                                            className={`w-full h-[38px] px-2 border border-gray-300 rounded-md ${index === 0 ? '' : 'mt-6'}`}
                                         >
                                             <option value="" disabled></option>
                                             {mediumOptions[mode].map(option => (
@@ -265,7 +265,7 @@ const UTMGenerator = () => {
 
                                     <div className="w-[150px]">
                                         {index === 0 && (
-                                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            <label className="block text-sm font-medium font-nsm text-gray-700 mb-2">
                                                 Campaign
                                             </label>
                                         )}
@@ -273,7 +273,7 @@ const UTMGenerator = () => {
                                             name="campaign"
                                             value={row.formData.campaign}
                                             onChange={(e) => handleInputChange(row.id, e)}
-                                            className={`w-full h-[38px] px-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${index === 0 ? '' : 'mt-6'}`}
+                                            className={`w-full h-[38px] px-2 border border-gray-300 rounded-md ${index === 0 ? '' : 'mt-6'}`}
                                         >
                                             <option value="" disabled></option>
                                             {campaignOptions[mode].map(option => (
@@ -286,7 +286,7 @@ const UTMGenerator = () => {
 
                                     <div className="w-[150px]">
                                         {index === 0 && (
-                                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            <label className="block text-sm font-medium font-nsm text-gray-700 mb-2">
                                                 {mode === 'email' ? 'Send Date' : 'Post Date'}
                                             </label>
                                         )}
@@ -295,13 +295,13 @@ const UTMGenerator = () => {
                                             name="sendDate"
                                             value={row.formData.sendDate}
                                             onChange={(e) => handleInputChange(row.id, e)}
-                                            className={`w-full h-[38px] px-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${index === 0 ? '' : 'mt-6'}`}
+                                            className={`w-full h-[38px] px-2 border border-gray-300 rounded-md ${index === 0 ? '' : 'mt-6'}`}
                                         />
                                     </div>
 
                                     <div className="w-[150px]">
                                         {index === 0 && (
-                                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            <label className="block text-sm font-medium font-nsm text-gray-700 mb-2">
                                                 Content
                                             </label>
                                         )}
@@ -310,7 +310,7 @@ const UTMGenerator = () => {
                                             name="content"
                                             value={row.formData.content}
                                             onChange={(e) => handleInputChange(row.id, e)}
-                                            className={`w-full h-[38px] px-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${index === 0 ? '' : 'mt-6'}`}
+                                            className={`w-full h-[38px] px-2 border border-gray-300 rounded-md ${index === 0 ? '' : 'mt-6'}`}
                                         />
                                     </div>
                                 </div>
@@ -319,7 +319,7 @@ const UTMGenerator = () => {
                                 <div className="flex items-end">
                                     <button
                                         onClick={() => generateUTM(row.id)}
-                                        className="bg-gray-600 text-white hover:bg-gray-800 rounded-md h-[38px] px-6"
+                                        className="bg-gray-800 text-white font-nsm hover:bg-gray-700 rounded-md h-[38px] px-6"
                                     >
                                         Generate
                                     </button>
@@ -339,9 +339,9 @@ const UTMGenerator = () => {
                                                 onClick={() => copyToClipboard(row.generatedUTM)}
                                                 disabled={!row.generatedUTM}
                                                 className={`${row.generatedUTM
-                                                        ? 'bg-gray-600 text-white hover:bg-gray-800 rounded-md'
+                                                        ? 'bg-gray-800 text-white hover:bg-gray-700 rounded-md'
                                                         : 'bg-gray-400 cursor-not-allowed'
-                                                    } text-white h-[38px] px-4 rounded-md whitespace-nowrap`}
+                                                    } text-white font-nsm h-[38px] px-4 rounded-md whitespace-nowrap`}
                                             >
                                                 Copy
                                             </button>
