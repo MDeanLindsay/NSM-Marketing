@@ -319,7 +319,7 @@ const UTMGenerator = () => {
                                 <div className="flex items-end">
                                     <button
                                         onClick={() => generateUTM(row.id)}
-                                        className="bg-gray-800 text-white h-[38px] px-6 rounded-md hover:bg-gray-400"
+                                        className="bg-gray-600 text-white hover:bg-gray-800 rounded-md h-[38px] px-6"
                                     >
                                         Generate
                                     </button>
@@ -339,7 +339,7 @@ const UTMGenerator = () => {
                                                 onClick={() => copyToClipboard(row.generatedUTM)}
                                                 disabled={!row.generatedUTM}
                                                 className={`${row.generatedUTM
-                                                        ? 'bg-gray-800 hover:bg-gray-400'
+                                                        ? 'bg-gray-600 text-white hover:bg-gray-800 rounded-md'
                                                         : 'bg-gray-400 cursor-not-allowed'
                                                     } text-white h-[38px] px-4 rounded-md whitespace-nowrap`}
                                             >

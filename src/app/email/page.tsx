@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <div className="min-h-screen relative">
       <header className="h-[100px] fixed top-0 left-0 right-0 flex items-center border-b bg-gray-100 z-10">
-        <div className="flex items-center pl-[150px]">
+        <div className="flex items-center pl-[100px]">
           <Image
             src="/images/logo.svg"
             alt="Logo"

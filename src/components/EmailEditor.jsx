@@ -144,7 +144,7 @@ export default function EmailPage() {
           <button
             className={`px-6 py-2 rounded-md font-medium ${activeButton === 'WFE'
               ? 'bg-gray-800 text-white'
-              : 'bg-gray-200 text-gray-700 hover:bg-gray-800 hover:text-white'
+              : 'bg-gray-200 text-gray-700 hover:bg-gray-800 hover:text-white cursor-not-allowed'
               } transition-colors duration-200`}
             onClick={() => setActiveButton('WFE')}
           >
@@ -153,7 +153,7 @@ export default function EmailPage() {
           <button
             className={`px-6 py-2 rounded-md font-medium ${activeButton === 'SSE'
               ? 'bg-gray-800 text-white'
-              : 'bg-gray-200 text-gray-700 hover:bg-gray-800 hover:text-white'
+              : 'bg-gray-200 text-gray-700 hover:bg-gray-800 hover:text-white cursor-not-allowed'
               } transition-colors duration-200`}
             onClick={() => setActiveButton('SSE')}
           >
@@ -176,7 +176,7 @@ export default function EmailPage() {
             />
             <button
               onClick={updateMainImage}
-              className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+              className="px-4 py-2 bg-gray-600 text-white hover:bg-gray-800 rounded-md"
             >
               Update
             </button>
@@ -199,7 +199,7 @@ export default function EmailPage() {
             />
             <button
               onClick={updateLandingPage}
-              className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+              className="px-4 py-2 bg-gray-600 text-white hover:bg-gray-800 rounded-md"
             >
               Update
             </button>
@@ -222,7 +222,7 @@ export default function EmailPage() {
             />
             <button
               onClick={updatePreviewText}
-              className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+              className="px-4 py-2 bg-gray-600 text-white hover:bg-gray-800 rounded-md"
             >
               Update
             </button>
@@ -245,7 +245,7 @@ export default function EmailPage() {
             />
             <button
               onClick={updateEmailCopy}
-              className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 w-fit"
+              className="px-4 py-2 bg-gray-600 text-white hover:bg-gray-800 rounded-md w-fit"
             >
               Update
             </button>
@@ -268,7 +268,7 @@ export default function EmailPage() {
             />
             <button
               onClick={updateTerms}
-              className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 w-fit"
+              className="px-4 py-2 bg-gray-600 text-white hover:bg-gray-800 rounded-md w-fit"
             >
               Update
             </button>
@@ -299,7 +299,7 @@ export default function EmailPage() {
               <span className="text-sm text-green-600">{copySuccess}</span>
               <button
                 onClick={copyToClipboard}
-                className="px-3 py-1 bg-gray-600 text-white text-sm rounded-md hover:bg-gray-700"
+                className="px-3 py-1 bg-gray-600 text-white hover:bg-gray-800 rounded-md text-sm"
               >
                 Copy HTML
               </button>
