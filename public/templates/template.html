@@ -4,121 +4,517 @@
 
 <title> </title>
 
-<style type="text/css">        
+<style type="text/css">
     /** CONTENT STYLES **/
-    .ReadMsgBody {width: 100%; background-color: #ffffff;}
-    .ExternalClass {width: 100%; background-color: #ffffff;}
-    .gmailfix {display:none; display:none!important;}
-    body {width: 100%; background-color: #ffffff; margin:0; padding:0; -webkit-font-smoothing: antialiased;font-family: Arial,sans-serif}
-    table {border-collapse: collapse;}
-    .hideyo td {font-size: 28px; line-height: 24px;}
-    .w650 {width:650px!important; padding:0;}
-    .w640 {width:640px!important; padding:0;}
-    .w545 {width:545px!important; padding:0;}  
-    .w163 {width:163px!important; padding:0;}
-    .w96 {width:96px!important; padding:0;}  
-    .w121 {width:121px!important; padding:0;}  
-    .w83 {width:83px!important; padding:0;}       
-    .master640 {min-width:640px;}
-    .box1 {width:43px!important; padding:0;}  
-    .box2 {width:163px!important; padding:0;}  
-    .box3 {width:30px!important; padding:0;}  
-    .box4 {width:96px!important; padding:0;}  
-    .box5 {width:30px!important; padding:0;}  
-    .box6 {width:121px!important; padding:0;}
-    .box7 {width:30px!important; padding:0;} 
-    .box8 {width:83px!important; padding:0;}
-    .box9 {width:43px!important; padding:0;}
-	.navWidth {font-size: 22px;}  
-    .navWidth a {font-size: 22px;}
-    .nav1 {width:163px!important; padding:0; height:31px!important;}  
-    .nav2 {width:96px!important; padding:0; height:31px!important;}  
-    .nav3 {width:121px!important; padding:0; height:31px!important;}  
-    .nav4 {width:83px!important; padding:0; height:31px!important;}
-    .centerpre {font-size: 15px; color: #666666; font-weight: light; text-align: center; font-family: Arial,sans-serif; line-height: 20px; vertical-align: middle; padding:10px 20px;}
-
-    a[x-apple-data-detectors=true] {
-     color: inherit !important;
-     text-decoration: inherit !important;
+    .ReadMsgBody {
+        width: 100%;
+        background-color: #ffffff;
     }
 
-      div[class=mobilecontent]{
+    .ExternalClass {
+        width: 100%;
+        background-color: #ffffff;
+    }
+
+    .gmailfix {
+        display: none;
+        display: none !important;
+    }
+
+    body {
+        width: 100%;
+        background-color: #ffffff;
+        margin: 0;
+        padding: 0;
+        -webkit-font-smoothing: antialiased;
+        font-family: Arial, sans-serif
+    }
+
+    table {
+        border-collapse: collapse;
+    }
+
+    .hideyo td {
+        font-size: 28px;
+        line-height: 24px;
+    }
+
+    .w650 {
+        width: 650px !important;
+        padding: 0;
+    }
+
+    .w640 {
+        width: 640px !important;
+        padding: 0;
+    }
+
+    .w545 {
+        width: 545px !important;
+        padding: 0;
+    }
+
+    .w163 {
+        width: 163px !important;
+        padding: 0;
+    }
+
+    .w96 {
+        width: 96px !important;
+        padding: 0;
+    }
+
+    .w121 {
+        width: 121px !important;
+        padding: 0;
+    }
+
+    .w83 {
+        width: 83px !important;
+        padding: 0;
+    }
+
+    .master640 {
+        min-width: 640px;
+    }
+
+    .box1 {
+        width: 43px !important;
+        padding: 0;
+    }
+
+    .box2 {
+        width: 163px !important;
+        padding: 0;
+    }
+
+    .box3 {
+        width: 30px !important;
+        padding: 0;
+    }
+
+    .box4 {
+        width: 96px !important;
+        padding: 0;
+    }
+
+    .box5 {
+        width: 30px !important;
+        padding: 0;
+    }
+
+    .box6 {
+        width: 121px !important;
+        padding: 0;
+    }
+
+    .box7 {
+        width: 30px !important;
+        padding: 0;
+    }
+
+    .box8 {
+        width: 83px !important;
+        padding: 0;
+    }
+
+    .box9 {
+        width: 43px !important;
+        padding: 0;
+    }
+
+    .navWidth {
+        font-size: 22px;
+    }
+
+    .navWidth a {
+        font-size: 22px;
+    }
+
+    .nav1 {
+        width: 163px !important;
+        padding: 0;
+        height: 31px !important;
+    }
+
+    .nav2 {
+        width: 96px !important;
+        padding: 0;
+        height: 31px !important;
+    }
+
+    .nav3 {
+        width: 121px !important;
+        padding: 0;
+        height: 31px !important;
+    }
+
+    .nav4 {
+        width: 83px !important;
+        padding: 0;
+        height: 31px !important;
+    }
+
+    .centerpre {
+        font-size: 15px;
+        color: #666666;
+        font-weight: light;
+        text-align: center;
+        font-family: Arial, sans-serif;
+        line-height: 20px;
+        vertical-align: middle;
+        padding: 10px 20px;
+    }
+
+    a[x-apple-data-detectors=true] {
+        color: inherit !important;
+        text-decoration: inherit !important;
+    }
+
+    div[class=mobilecontent] {
         display: block !important;
         max-height: none !important;
-      }                       
+    }
 
-    @media only screen and (max-width: 650px)  {
-                .deviceWidth {width:440px!important; padding:0;}
-                .social {width:146px!important; padding:0;}                
-                .w650 {width:440px!important; padding:0;}
-                .w640 {width:375px!important; padding:0;}
-                .w545 {width:372px!important; padding:0;}                     
-                .navWidth {width:0px!important; padding:0;}                    
-                .center {text-align: center!important;}
-                .hideyo td {font-size: 21px; line-height: 13px;}
-                .hideyosm {padding: 8px 1px 8px 1px;}
-                .hideTHIS {display:none; display:none!important;}                                  
-                .half {width:80%!important; padding:0;}
-                .w163 {width:104px!important; padding:0;}
-                .w96 {width:63px!important; padding:0;}  
-                .w121 {width:81px!important; padding:0;}  
-                .w83 {width:56px!important; padding:0;}  
-                .w193 {width:123px!important; padding:0;}
-                .w111 {width:72px!important; padding:0;}  
-                .w145 {width:94px!important; padding:0;}  
-                .w98 {width:63px!important; padding:0;}                  
-                .master640 {min-width:100%;}
-                .box1 {display:none!important;}  
-                .box2 {width:116px!important; padding:0;}  
-                .box3 {width:20px!important; padding:0;}  
-                .box4 {width:68px!important; padding:0;}  
-                .box5 {width:20px!important; padding:0;}  
-                .box6 {width:86px!important; padding:0;}
-                .box7 {width:20px!important; padding:0;} 
-                .box8 {width:59px!important; padding:0;}
-                .box9 {display:none!important;}  
-                .nav1 {width:116px!important; padding:0; height:22px!important;}  
-                .nav2 {width:68px!important; padding:0; height:22px!important;}  
-                .nav3 {width:86px!important; padding:0; height:22px!important;}  
-                .nav4 {width:59px!important; padding:0; height:22px!important;}                 
-                .logo {width:125px!important; padding:0;text-align: center!important;}
-                .addline {border-bottom: solid #9b9b9b; border-bottom-width: 1px;}
-                .xd {display:none; display:none!important;}     
-                .centerpre {font-size: 11px;}                
-            }
+    @media only screen and (max-width: 650px) {
+        .deviceWidth {
+            width: 440px !important;
+            padding: 0;
+        }
+
+        .social {
+            width: 146px !important;
+            padding: 0;
+        }
+
+        .w650 {
+            width: 440px !important;
+            padding: 0;
+        }
+
+        .w640 {
+            width: 375px !important;
+            padding: 0;
+        }
+
+        .w545 {
+            width: 372px !important;
+            padding: 0;
+        }
+
+        .navWidth {
+            width: 0px !important;
+            padding: 0;
+        }
+
+        .center {
+            text-align: center !important;
+        }
+
+        .hideyo td {
+            font-size: 21px;
+            line-height: 13px;
+        }
+
+        .hideyosm {
+            padding: 8px 1px 8px 1px;
+        }
+
+        .hideTHIS {
+            display: none;
+            display: none !important;
+        }
+
+        .half {
+            width: 80% !important;
+            padding: 0;
+        }
+
+        .w163 {
+            width: 104px !important;
+            padding: 0;
+        }
+
+        .w96 {
+            width: 63px !important;
+            padding: 0;
+        }
+
+        .w121 {
+            width: 81px !important;
+            padding: 0;
+        }
+
+        .w83 {
+            width: 56px !important;
+            padding: 0;
+        }
+
+        .w193 {
+            width: 123px !important;
+            padding: 0;
+        }
+
+        .w111 {
+            width: 72px !important;
+            padding: 0;
+        }
+
+        .w145 {
+            width: 94px !important;
+            padding: 0;
+        }
+
+        .w98 {
+            width: 63px !important;
+            padding: 0;
+        }
+
+        .master640 {
+            min-width: 100%;
+        }
+
+        .box1 {
+            display: none !important;
+        }
+
+        .box2 {
+            width: 116px !important;
+            padding: 0;
+        }
+
+        .box3 {
+            width: 20px !important;
+            padding: 0;
+        }
+
+        .box4 {
+            width: 68px !important;
+            padding: 0;
+        }
+
+        .box5 {
+            width: 20px !important;
+            padding: 0;
+        }
+
+        .box6 {
+            width: 86px !important;
+            padding: 0;
+        }
+
+        .box7 {
+            width: 20px !important;
+            padding: 0;
+        }
+
+        .box8 {
+            width: 59px !important;
+            padding: 0;
+        }
+
+        .box9 {
+            display: none !important;
+        }
+
+        .nav1 {
+            width: 116px !important;
+            padding: 0;
+            height: 22px !important;
+        }
+
+        .nav2 {
+            width: 68px !important;
+            padding: 0;
+            height: 22px !important;
+        }
+
+        .nav3 {
+            width: 86px !important;
+            padding: 0;
+            height: 22px !important;
+        }
+
+        .nav4 {
+            width: 59px !important;
+            padding: 0;
+            height: 22px !important;
+        }
+
+        .logo {
+            width: 125px !important;
+            padding: 0;
+            text-align: center !important;
+        }
+
+        .addline {
+            border-bottom: solid #9b9b9b;
+            border-bottom-width: 1px;
+        }
+
+        .xd {
+            display: none;
+            display: none !important;
+        }
+
+        .centerpre {
+            font-size: 11px;
+        }
+    }
 
     @media only screen and (max-width: 479px) {
-                .deviceWidth {width:340px!important; padding:0;}
-                .social {width:112px!important; padding:0;}                
-                .w650 {width:340px!important; padding:0;}
-                .w640 {width:340px!important; padding:0;}
-                .w545 {width:340px!important; padding:0;}                                 
-                .center {text-align: center!important;}
-                .hideyo td {font-size: 17px; line-height: 8px;}                
-                .xh {display:none; display:none!important;}
-                .w163 {width:96px!important; padding:0;}
-                .w96 {width:55px!important; padding:0;}  
-                .w121 {width:72px!important; padding:0;}  
-                .w83 {width:49px!important; padding:0;}
-                .w193 {width:96px!important; padding:0;}
-                .w111 {width:55px!important; padding:0;}  
-                .w145 {width:72px!important; padding:0;}  
-                .w98 {width:49px!important; padding:0;}                         
-                .box2 {width:100px!important; padding:0;}  
-                .box3 {width:12px!important; padding:0;}  
-                .box4 {width:59px!important; padding:0;}  
-                .box5 {width:12px!important; padding:0;}  
-                .box6 {width:74px!important; padding:0;}
-                .box7 {width:12px!important; padding:0;} 
-                .box8 {width:51px!important; padding:0;} 
-		        .logo {width:100px!important; padding:0;text-align: center!important;}
-                .nav1 {width:100px!important; padding:0; height:19px!important;}  
-                .nav2 {width:59px!important; padding:0; height:19px!important;}  
-                .nav3 {width:74px!important; padding:0; height:19px!important;}  
-                .nav4 {width:51px!important; padding:0; height:19px!important;} 
-		        .navWidth {font-size: 18px;} 
-                .navWidth a {font-size: 18px;}  
-            }
+        .deviceWidth {
+            width: 340px !important;
+            padding: 0;
+        }
+
+        .social {
+            width: 112px !important;
+            padding: 0;
+        }
+
+        .w650 {
+            width: 340px !important;
+            padding: 0;
+        }
+
+        .w640 {
+            width: 340px !important;
+            padding: 0;
+        }
+
+        .w545 {
+            width: 340px !important;
+            padding: 0;
+        }
+
+        .center {
+            text-align: center !important;
+        }
+
+        .hideyo td {
+            font-size: 17px;
+            line-height: 8px;
+        }
+
+        .xh {
+            display: none;
+            display: none !important;
+        }
+
+        .w163 {
+            width: 96px !important;
+            padding: 0;
+        }
+
+        .w96 {
+            width: 55px !important;
+            padding: 0;
+        }
+
+        .w121 {
+            width: 72px !important;
+            padding: 0;
+        }
+
+        .w83 {
+            width: 49px !important;
+            padding: 0;
+        }
+
+        .w193 {
+            width: 96px !important;
+            padding: 0;
+        }
+
+        .w111 {
+            width: 55px !important;
+            padding: 0;
+        }
+
+        .w145 {
+            width: 72px !important;
+            padding: 0;
+        }
+
+        .w98 {
+            width: 49px !important;
+            padding: 0;
+        }
+
+        .box2 {
+            width: 100px !important;
+            padding: 0;
+        }
+
+        .box3 {
+            width: 12px !important;
+            padding: 0;
+        }
+
+        .box4 {
+            width: 59px !important;
+            padding: 0;
+        }
+
+        .box5 {
+            width: 12px !important;
+            padding: 0;
+        }
+
+        .box6 {
+            width: 74px !important;
+            padding: 0;
+        }
+
+        .box7 {
+            width: 12px !important;
+            padding: 0;
+        }
+
+        .box8 {
+            width: 51px !important;
+            padding: 0;
+        }
+
+        .logo {
+            width: 100px !important;
+            padding: 0;
+            text-align: center !important;
+        }
+
+        .nav1 {
+            width: 100px !important;
+            padding: 0;
+            height: 19px !important;
+        }
+
+        .nav2 {
+            width: 59px !important;
+            padding: 0;
+            height: 19px !important;
+        }
+
+        .nav3 {
+            width: 74px !important;
+            padding: 0;
+            height: 19px !important;
+        }
+
+        .nav4 {
+            width: 51px !important;
+            padding: 0;
+            height: 19px !important;
+        }
+
+        .navWidth {
+            font-size: 18px;
+        }
+
+        .navWidth a {
+            font-size: 18px;
+        }
+    }
 </style>
 <center>
     <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
@@ -138,6 +534,7 @@
                                                 <td class="centerpre">
                                                     <!-- Preview Text -->
                                                     <p align="center">Preview Text Goes Here!</p>
+                                                    <!-- End Preview Text -->
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -159,12 +556,10 @@
                                             <tr>
                                                 <td width="169"></td>
                                                 <td style="padding:1px 20px" class="logo">
-                                                    <a
-                                                        href="https://www.newseasonsmarket.com/rewards/">
-                                                        <img
-                                                            src="https://clutch-asset-management.s3.amazonaws.com/newseasonsmarket/NR-logo-600x600.png"
-                                                            alt="Neighbor Rewards logo" width="150"
-                                                            class="logo" border="0">
+                                                    <a href="https://www.newseasonsmarket.com/rewards/">
+                                                        <img src="https://clutch-asset-management.s3.amazonaws.com/newseasonsmarket/NR-logo-600x600.png"
+                                                            alt="Neighbor Rewards logo" width="150" class="logo"
+                                                            border="0">
                                                     </a>
                                                 </td>
                                                 <td width="169"></td>
@@ -199,22 +594,23 @@
                                 <td valign="top" style="padding:0" bgcolor="#ffffff">
                                     <!-- Landing Page URL -->
                                     <a href="https://www.newseasonsmarket.com/neighbor-rewards-offer-5-30-22-email/">
+                                        <!-- End Landing Page URL -->
                                         <!-- Main Image -->
-                                        <img
-                                            width="650" class="deviceWidth"
+                                        <img width="650" class="deviceWidth"
                                             src="https://clutch-asset-management.s3.amazonaws.com/newseasonsmarket/NSM-3off7-chips-offer-FEATURE-5-22-v1.jpg"
                                             alt="Click To Add Offer To Account" border="0" style="display: block;">
+                                        <!-- End Main Image -->
                                     </a>
                                 </td>
                             </tr>
                             <tr>
-                                <td style="font-size: 18px; color: rgb(100, 100, 100); text-align: center; line-height: 24px; vertical-align: top; padding: 12px 8px 10px;" bgcolor="#ffffff">
+                                <td style="font-size: 18px; color: rgb(100, 100, 100); text-align: center; line-height: 24px; vertical-align: top; padding: 12px 8px 10px;"
+                                    bgcolor="#ffffff">
                                     <p style="font-weight: normal; margin: 0px; padding-left: 5px; padding-right: 5px;">
-                                            <p><strong>Hi {{firstName default="neighbor"}}!</strong></p>
-                                            <!-- Email Copy -->
-                                            <p>Copy goes here!</p>
-                                            <p>Use <strong> these tags</strong> to bolden the part that includes the discount amt/dept!</p> 
-                                            <p>Leave a line break to start a new paragraph</p>
+                                    <p><strong>Hi {{firstName default="neighbor"}}!</strong></p>
+                                    <!-- Email Copy -->
+                                    <p>Copy goes here!</p>
+                                    <!-- End Email Copy -->
                                     </p>
                                     <p style="font-weight: normal; margin: 0px; padding-left: 5px; padding-right: 5px;">
                                     </p>
@@ -234,8 +630,11 @@
                                                     <td width="20"></td>
                                                     <td valign="middle" width="280">
                                                         <!-- Landing Page URL -->
-                                                        <a href="https://www.newseasonsmarket.com/neighbor-rewards-offer-5-30-22-email/" style="text-decoration:none;">
-                                                            <p style="font-family:Helvetica, Arial, sans-serif; color:#0e1b0f; font-size:20px; font-weight:bold; text-align:center; padding:0; margin:0;"> 
+                                                        <a href="https://www.newseasonsmarket.com/neighbor-rewards-offer-5-30-22-email/"
+                                                            style="text-decoration:none;">
+                                                            <!-- End Landing Page URL -->
+                                                            <p
+                                                                style="font-family:Helvetica, Arial, sans-serif; color:#0e1b0f; font-size:20px; font-weight:bold; text-align:center; padding:0; margin:0;">
                                                                 ADD TO MY ACCOUNT&nbsp;&nbsp;&gt;&gt;
                                                             </p>
                                                         </a>
@@ -261,11 +660,11 @@
                                             need {{nextPointsReward thresholdAmount="500" decimalAmount="0"}} more to
                                             reach your next $5 Neighbor Reward. </span><br>
                                     </p>
-                                     <!-- Terms -->
-                                    <p 
-                                        style="font-weight: normal; font-size: 12px; line-height: 18px; color: rgb(100, 100, 100); text-align: center; vertical-align: top;">
+                                    <!-- Terms -->
+                                    <p style="font-weight: normal; font-size: 12px; line-height: 18px; color: rgb(100, 100, 100); text-align: center; vertical-align: top;">
                                         Valid <strong>MM/DD/YY</strong> through <strong>MM/DD/YY</strong>. Must click button to load offer to account. Discount can only be used once. Must make a purchase from the produce department to receive the discount. Valid in store only. No cash value. Must input enrolled Neighbor Rewards mobile number and select the offer on the pin pad when applicable during checkout to redeem.
                                     </p>
+                                    <!-- End Terms -->
                                 </td>
                             </tr>
                         </tbody>
@@ -298,12 +697,11 @@
                                                 <td valign="top" align="center"
                                                     style="padding:10px 0; text-align: center;font-family:Helvetica,Arial,sans-serif;font-weight:bold;margin-top:0;">
                                                     <a href="https://www.instagram.com/newseasonsmarket/">
-                                                        <img
-                                                            width="50"
+                                                        <img width="50"
                                                             src="https://clutch-asset-management.s3.amazonaws.com/newseasonsmarket/NSM-instacart-logo.png"
                                                             alt="Instagram banner" border="0"></a>
-
-                                                    <a href="https://www.facebook.com/NewSeasonsMarket"><img width="50"
+                                                    <a href="https://www.facebook.com/NewSeasonsMarket">
+                                                        <img width="50"
                                                             src="https://clutch-asset-management.s3.amazonaws.com/newseasonsmarket/NSM-facebook-logo.png"
                                                             alt="Facebook banner" border="0"></a>
                                                 </td>
@@ -331,7 +729,6 @@
                                                     <a style="color:#808080 !important; text-decoration: none;"
                                                         class="promo"><strong>New Seasons Market</strong> | 1300 SE
                                                         Stark St #401, Portland, OR 97214</a>
-
                                                 </td>
                                             </tr>
                                         </tbody>

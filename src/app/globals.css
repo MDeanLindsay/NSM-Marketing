@@ -27,3 +27,26 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Editor Styles */
+/* Ensure dropdowns appear above other content */
+.DraftEditor-root {
+  position: relative;
+  z-index: 1;
+}
+
+/* Color picker dropdown should appear above editor */
+.group:hover > div {
+  z-index: 2;
+}
+
+.public-DraftEditor-content {
+  min-height: 200px;
+}
+
+/* Material Icons Alignment */
+.material-icons {
+  display: inline-flex;
+  vertical-align: middle;
+  line-height: 1;
+}
