@@ -1,6 +1,6 @@
 'use client';
 import { Analytics } from "@vercel/analytics/react"
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, Suspense } from 'react';
 import dynamic from 'next/dynamic';
 import { useSearchParams, usePathname } from 'next/navigation';
 
@@ -9,7 +9,8 @@ const DraftEditor = dynamic(
   { ssr: false }
 );
 
-export default function EmailPage() {
+// Create a client component for the template editor
+function TemplateEditor() {
   const [template, setTemplate] = useState({
     mainImageUrl: '',
     landingPageUrl: '',
@@ -85,7 +86,6 @@ export default function EmailPage() {
           );
           break;
         case 'emailBody':
-          // Ensure we're not duplicating content by checking if it's already wrapped
           if (!value.includes('<!-- Email Copy -->')) {
             newContent = newContent.replace(
               /(<!-- Email Copy -->)([\s\S]*?)(<!-- End Email Copy -->)/,
@@ -94,7 +94,6 @@ export default function EmailPage() {
           }
           break;
         case 'termsContent':
-          // Ensure we're not duplicating content by checking if it's already wrapped
           if (!value.includes('<!-- Terms -->')) {
             newContent = newContent.replace(
               /(<!-- Terms -->)([\s\S]*?)(<!-- End Terms -->)/,
@@ -229,5 +228,14 @@ export default function EmailPage() {
       </div>
       <Analytics />
     </main>
+  );
+}
+
+// Main component with Suspense boundary
+export default function EmailPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <TemplateEditor />
+    </Suspense>
   );
 }
