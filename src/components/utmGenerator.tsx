@@ -195,7 +195,9 @@ const UTMGenerator = () => {
                                     {index === 0 && (
                                         <button
                                             onClick={addNewRow}
-                                            className="h-[38px] w-[38px] flex items-center justify-center border border-gray-300 rounded-md text-gray-600 hover:text-gray-800 hover:border-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                            disabled={rows.length >= 6}
+                                            className={`h-[38px] w-[38px] flex items-center justify-center border border-gray-300 rounded-md text-gray-600 hover:text-gray-800 hover:border-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${rows.length >= 8 ? 'opacity-50 cursor-not-allowed' : ''
+                                                }`}
                                         >
                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />

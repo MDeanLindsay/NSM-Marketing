@@ -1,7 +1,8 @@
 'use client';
 import { Analytics } from "@vercel/analytics/react"
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import dynamic from 'next/dynamic';
+import { useSearchParams, usePathname } from 'next/navigation';
 
 const DraftEditor = dynamic(
   () => import('./DraftEditor'),
@@ -18,36 +19,48 @@ export default function EmailPage() {
   });
   const [htmlContent, setHtmlContent] = useState('');
   const [copySuccess, setCopySuccess] = useState('');
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
 
   useEffect(() => {
-    fetch('/api/template')
+    const templateType = searchParams.get('template') || 'offer';
+    
+    fetch(`/api/template?template=${templateType}`)
       .then(response => response.json())
       .then(data => {
-        const content = data.content;
-        
-        // Extract initial values
-        const imgMatch = content.match(/<!-- Main Image -->[\s\S]*?<img[^>]*src="([^"]*)"[^>]*>/);
-        const linkMatch = content.match(/<!-- Landing Page URL -->\s*<a[^>]*href="([^"]*)"/);
-        const previewMatch = content.match(/<!-- Preview Text -->[\s\S]*?<p[^>]*>(.*?)<\/p>/);
-        const emailBodyMatch = content.match(/<!-- Email Copy -->([\s\S]*?)<!-- End Email Copy -->/);
-        const termsMatch = content.match(/<!-- Terms -->\s*<p[^>]*>([\s\S]*?)<\/p>\s*<!-- End Terms -->/);
-
-        const initialTemplate = {
-          mainImageUrl: imgMatch?.[1] || '',
-          landingPageUrl: linkMatch?.[1] || '',
-          previewText: previewMatch?.[1] || '',
-          emailBody: emailBodyMatch?.[1]?.trim() || '',
-          termsContent: termsMatch?.[1]?.trim() || ''
-        };
-
-        setTemplate(initialTemplate);
-        setHtmlContent(content);
+        const templateData = parseTemplate(data.content);
+        setTemplate(templateData);
+        setHtmlContent(data.content);
       })
       .catch(error => console.error('Error loading template:', error));
+  }, [searchParams, pathname]);
+
+  const parseTemplate = useCallback((content) => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(content, 'text/html');
+
+    // Extract email body between comment markers
+    const emailBodyMatch = content.match(/<!-- Email Copy -->([\s\S]*?)<!-- End Email Copy -->/);
+    const emailBody = emailBodyMatch ? emailBodyMatch[1].trim() : '';
+
+    // Extract terms between comment markers
+    const termsMatch = content.match(/<!-- Terms -->([\s\S]*?)<!-- End Terms -->/);
+    const terms = termsMatch ? termsMatch[1].trim() : '';
+
+    return {
+      mainImageUrl: doc.querySelector('.targetImage')?.getAttribute('src') || '',
+      landingPageUrl: doc.querySelector('.targetLink')?.getAttribute('href') || '',
+      previewText: doc.querySelector('.targetPreview')?.textContent?.trim() || '',
+      emailBody: emailBody,
+      termsContent: terms
+    };
   }, []);
 
-  const updateTemplate = (field, value) => {
-    setTemplate(prev => ({ ...prev, [field]: value }));
+  const updateTemplate = useCallback((field, value) => {
+    setTemplate(prev => {
+      if (prev[field] === value) return prev;
+      return { ...prev, [field]: value };
+    });
     
     setHtmlContent(prevContent => {
       let newContent = prevContent;
@@ -55,7 +68,7 @@ export default function EmailPage() {
       switch(field) {
         case 'mainImageUrl':
           newContent = newContent.replace(
-            /(<!-- Main Image -->[\s\S]*?<img[^>]*src=")[^"]*(")/,
+            /(<!-- Main Image -->[\s\S]*?<img[^>]*src=")[^"]*(")/g,
             `$1${value}$2`
           );
           break;
@@ -72,22 +85,28 @@ export default function EmailPage() {
           );
           break;
         case 'emailBody':
-          newContent = newContent.replace(
-            /(<!-- Email Copy -->)([\s\S]*?)(<!-- End Email Copy -->)/,
-            `$1\n${value}\n$3`
-          );
-          break;
-          case 'termsContent':
+          // Ensure we're not duplicating content by checking if it's already wrapped
+          if (!value.includes('<!-- Email Copy -->')) {
             newContent = newContent.replace(
-              /(<!-- Terms -->\s*<p[^>]*>)([\s\S]*?)(<\/p>\s*<!-- End Terms -->)/,
-              `$1${value}$3`
+              /(<!-- Email Copy -->)([\s\S]*?)(<!-- End Email Copy -->)/,
+              `$1\n${value}\n$3`
             );
-            break;
+          }
+          break;
+        case 'termsContent':
+          // Ensure we're not duplicating content by checking if it's already wrapped
+          if (!value.includes('<!-- Terms -->')) {
+            newContent = newContent.replace(
+              /(<!-- Terms -->)([\s\S]*?)(<!-- End Terms -->)/,
+              `$1\n${value}\n$3`
+            );
+          }
+          break;
       }
       
-      return newContent;
+      return newContent !== prevContent ? newContent : prevContent;
     });
-  };
+  }, []);
 
   const copyToClipboard = async () => {
     try {
@@ -102,9 +121,7 @@ export default function EmailPage() {
 
   return (
     <main className="flex h-[calc(100vh-100px)]">
-      {/* Left side controls */}
       <div className="w-1/2 p-4 bg-gray-100 overflow-y-auto">
-        {/* Preview Text */}
         <div className="mb-6">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Preview Text
@@ -117,7 +134,6 @@ export default function EmailPage() {
           />
         </div>
 
-        {/* Image URL Input */}
         <div className="mb-6">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Image URL
@@ -130,7 +146,6 @@ export default function EmailPage() {
           />
         </div>
 
-        {/* Landing Page URL */}
         <div className="mb-6">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Landing Page URL
@@ -143,7 +158,6 @@ export default function EmailPage() {
           />
         </div>
 
-        {/* Email Body Editor */}
         <div className="mb-6">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Email Body
@@ -155,7 +169,6 @@ export default function EmailPage() {
           />
         </div>
 
-        {/* Terms & Conditions */}
         <div className="mb-6">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Terms & Conditions
@@ -166,22 +179,31 @@ export default function EmailPage() {
             defaultFontSize="12"
           />
         </div>
-
       </div>
 
-      {/* Right side - Preview and HTML Output */}
       <div className="w-1/2 flex flex-col">
-        {/* Preview Section */}
         <div className="flex-1 bg-white">
           <iframe
-            srcDoc={htmlContent}
+            srcDoc={`
+              <!DOCTYPE html>
+              <html>
+                <head>
+                  <meta charset="UTF-8">
+                  <style>
+                    body { margin: 0; padding: 0; }
+                  </style>
+                </head>
+                <body>
+                  ${htmlContent}
+                </body>
+              </html>
+            `}
             className="w-full h-full border-0"
             title="Email Preview"
             sandbox="allow-same-origin"
           />
         </div>
-        
-        {/* HTML Output Section */}
+
         <div className="h-48 p-4 bg-gray-50">
           <div className="flex justify-between items-center mb-2">
             <span className="text-sm font-medium text-gray-700">HTML Output</span>
