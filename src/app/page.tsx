@@ -15,6 +15,9 @@ export default function Home() {
               className="w-full h-full object-contain"
             />
           </div>
+          <p className="text-gray-600 text-xl font-nsm mt-4">
+            Click a tool from the header to begin!
+          </p>
           <Analytics/>
         </main>
       </div>
