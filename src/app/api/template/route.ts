@@ -24,7 +24,8 @@ export async function GET(request: NextRequest) {
       headers: { 'Content-Type': 'application/json' },
     });
   } catch (error) {
-    return new Response(JSON.stringify({ error: 'Failed to read template' }), {
+    console.error('Failed to read template:', error);
+    return new Response(JSON.stringify({ error: 'Failed to read template file' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     });
