@@ -142,7 +142,7 @@ const UTMGenerator = () => {
         const baseUrl = row.formData.url;
         const connector = baseUrl.includes('?') ? '&' : '?';
         const queryParams = Array.from(utmParams)
-            .filter(([_, value]) => value)
+            .filter(([, value]) => value)
             .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
             .join('&');
 
