@@ -108,49 +108,50 @@ const UTMGenerator = () => {
         const row = rows.find(r => r.id === rowId);
         if (!row) return;
 
-        if (!row.formData.url) {
+        // Consolidated validation
+        const validationError = !row.formData.url 
+            ? 'Add the url.'
+            : !row.formData.campaign
+            ? 'Add a campaign name.'
+            : null;
+
+        if (validationError) {
             setRows(prevRows => prevRows.map(r =>
-                r.id === rowId
-                    ? { ...r, generatedUTM: 'Add the url.' }
-                    : r
-            ));
-            return;
-        }
-        if (!row.formData.campaign) {
-            setRows(prevRows => prevRows.map(r =>
-                r.id === rowId
-                    ? { ...r, generatedUTM: 'Add a campaign name.' }
-                    : r
+                r.id === rowId ? { ...r, generatedUTM: validationError } : r
             ));
             return;
         }
 
-        const connector = row.formData.url.includes('?') ? '&' : '?';
-        let utmString = row.formData.url + connector;
+        // Process campaign name with date if present
+        const campaignName = row.formData.sendDate
+            ? (() => {
+                const [year, month, day] = row.formData.sendDate.split('-');
+                return `${row.formData.campaign}_${month}${day}${year.slice(-2)}`;
+              })()
+            : row.formData.campaign;
 
-        let campaignName = row.formData.campaign;
-        if (row.formData.sendDate) {
-            const [year, month, day] = row.formData.sendDate.split('-');
-            const shortYear = year.slice(-2);
-            campaignName = `${row.formData.campaign}_${month}${day}${shortYear}`;
-        }
-        if (row.formData.source) {
-            utmString += `&utm_source=${encodeURIComponent(row.formData.source)}`;
-        }
-        if (row.formData.medium) {
-            utmString += `&utm_medium=${encodeURIComponent(row.formData.medium)}`;
-        }
-        if (campaignName) {
-            utmString += `&utm_campaign=${encodeURIComponent(campaignName)}`;
-        }
-        if (row.formData.content) {
-            utmString += `&utm_content=${encodeURIComponent(row.formData.content)}`;
-        }
+        // Define UTM parameters mapping
+        const utmParams = new Map([
+            ['utm_source', row.formData.source],
+            ['utm_medium', row.formData.medium],
+            ['utm_campaign', campaignName],
+            ['utm_content', row.formData.content]
+        ]);
+
+        // Build URL with parameters
+        const baseUrl = row.formData.url;
+        const connector = baseUrl.includes('?') ? '&' : '?';
+        const queryParams = Array.from(utmParams)
+            .filter(([_, value]) => value)
+            .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
+            .join('&');
+
+        const finalUrl = queryParams
+            ? `${baseUrl}${connector}${queryParams}`
+            : baseUrl;
 
         setRows(prevRows => prevRows.map(r =>
-            r.id === rowId
-                ? { ...r, generatedUTM: utmString }
-                : r
+            r.id === rowId ? { ...r, generatedUTM: finalUrl } : r
         ));
     };
 
