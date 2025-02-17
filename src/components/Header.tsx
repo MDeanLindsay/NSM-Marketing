@@ -28,7 +28,13 @@ export default function Header() {
                   href="/email?template=offer"
                   className="block px-4 py-3 text-gray-600 hover:text-gray-900 hover:bg-gray-200 text-xl font-nsm whitespace-nowrap"
                 >
-                  Offer
+                  NR
+                </Link>
+                <Link
+                  href="/email?template=sse"
+                  className="block px-4 py-3 text-gray-600 hover:text-gray-900 hover:bg-gray-200 text-xl font-nsm whitespace-nowrap"
+                >
+                  SSE
                 </Link>
                 <Link
                   href="/email?template=wfe"

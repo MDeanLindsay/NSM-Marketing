@@ -68,7 +68,7 @@ function TemplateEditor() {
           { image: '', link: '', line1: '', line2: '' }
         ]
       };
-    } else {
+    } else if (templateType === 'wfe') {
       // WFE template parsing
       return {
         previewTextHeader: doc.querySelector('.targetPreviewHeader')?.textContent?.trim() || '',
@@ -101,6 +101,26 @@ function TemplateEditor() {
             image: doc.querySelector('.targetSubBannerImage3')?.getAttribute('src') || '',
             link: doc.querySelector('.targetSubBannerLink3')?.getAttribute('href') || ''
           }
+        ]
+      };
+    } else if (templateType === 'sse') {
+      // Extract terms between comment markers
+      const termsMatch = content.match(/<!-- Terms -->([\s\S]*?)<!-- End Terms -->/);
+      const terms = termsMatch ? termsMatch[1].trim() : '';
+
+      return {
+        previewTextHeader: '',
+        previewText: doc.querySelector('.targetPreview')?.textContent?.trim() || '',
+        headerBannerImage: '',
+        headerBannerLink: '',
+        mainBannerImage: doc.querySelector('.feature')?.getAttribute('src') || '',
+        mainBannerLink: '',
+        emailBody: emailBody || '',
+        termsContent: terms || '',
+        subfeatures: [
+          { image: '', link: '', line1: '', line2: '' },
+          { image: '', link: '', line1: '', line2: '' },
+          { image: '', link: '', line1: '', line2: '' }
         ]
       };
     }
@@ -149,6 +169,31 @@ function TemplateEditor() {
             newContent = newContent.replace(
               /(<!-- Preview Text -->[\s\S]*?<p[^>]*>)(.*?)(<\/p>)/,
               `$1${value}$3`
+            );
+            break;
+          case 'emailBody':
+            if (!value.includes('<!-- Email Copy -->')) {
+              newContent = newContent.replace(
+                /(<!-- Email Copy -->)([\s\S]*?)(<!-- End Email Copy -->)/,
+                `$1\n${value}\n$3`
+              );
+            }
+            break;
+          case 'termsContent':
+            if (!value.includes('<!-- Terms -->')) {
+              newContent = newContent.replace(
+                /(<!-- Terms -->)([\s\S]*?)(<!-- End Terms -->)/,
+                `$1\n${value}\n$3`
+              );
+            }
+            break;
+        }
+      } else if (templateType === 'sse') {
+        switch(field) {
+          case 'mainBannerImage':
+            newContent = newContent.replace(
+              /(<img[^>]*class="feature"[^>]*src=")[^"]*(")/g,
+              `$1${value}$2`
             );
             break;
           case 'emailBody':
@@ -289,7 +334,7 @@ function TemplateEditor() {
           />
         </div>
 
-        {templateType === 'offer' ? (
+        {templateType === 'offer' || templateType === 'sse' ? (
           <>
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -303,17 +348,19 @@ function TemplateEditor() {
               />
             </div>
 
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Main Banner Link
-              </label>
-              <input
-                type="text"
-                value={template.mainBannerLink}
-                onChange={(e) => updateTemplate('mainBannerLink', e.target.value)}
-                className="w-full p-2 border rounded-md"
-              />
-            </div>
+            {templateType === 'offer' && (
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Main Banner Link
+                </label>
+                <input
+                  type="text"
+                  value={template.mainBannerLink}
+                  onChange={(e) => updateTemplate('mainBannerLink', e.target.value)}
+                  className="w-full p-2 border rounded-md"
+                />
+              </div>
+            )}
           </>
         ) : (
           <>
@@ -379,7 +426,7 @@ function TemplateEditor() {
           />
         </div>
 
-        {templateType === 'offer' && (
+        {(templateType === 'offer' || templateType === 'sse') && (
           <div className="mb-6">
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Terms & Conditions
