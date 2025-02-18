@@ -11,7 +11,7 @@ export default function Home() {
         <main className="container mx-auto p-4 min-h-[calc(100vh-75px)] flex flex-col items-center justify-center">
           <div className="rounded-full p-4 w-[550px] h-[550px] relative flex items-center justify-center">
             <Image 
-              src="/images/employee.png" 
+              src="/images/employee.svg" 
               alt="Employee illustration" 
               fill
               className="object-contain"
