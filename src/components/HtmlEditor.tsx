@@ -80,13 +80,20 @@ const HtmlEditor = () => {
             });
             urlObj.search = cleanParams.toString();
             return urlObj.toString();
-        } catch (e) {
+        } catch (_) {
+            // If URL parsing fails, return the original URL
             console.error('Invalid URL:', url);
             return url;
         }
     };
 
     const handleGenerate = () => {
+        // Validate required fields first
+        if (!formData.source || !formData.medium || !formData.campaign) {
+            alert('Please fill in all required fields (source, medium, and campaign)');
+            return;
+        }
+
         let linkCount = 0;
 
         const parser = new DOMParser();
@@ -104,12 +111,6 @@ const HtmlEditor = () => {
             if (href.includes('newseasonsmarket.com')) {
                 linkCount++;
                 const utmString = generateUTMString(linkCount);
-                
-                if (!utmString) {
-                    alert('Please fill in all required fields (source, medium, and campaign)');
-                    return;
-                }
-
                 const cleanedUrl = cleanUrl(href);
                 const connector = cleanedUrl.includes('?') ? '&' : '?';
                 const newUrl = `${cleanedUrl}${connector}${utmString}`;
