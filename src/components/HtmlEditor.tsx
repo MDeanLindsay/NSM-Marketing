@@ -80,7 +80,7 @@ const HtmlEditor = () => {
             });
             urlObj.search = cleanParams.toString();
             return urlObj.toString();
-        } catch (_) {
+        } catch {
             // If URL parsing fails, return the original URL
             console.error('Invalid URL:', url);
             return url;
