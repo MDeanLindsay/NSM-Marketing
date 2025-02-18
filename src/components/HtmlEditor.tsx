@@ -98,14 +98,18 @@ const HtmlEditor = () => {
 
         const parser = new DOMParser();
         const doc = parser.parseFromString(htmlInput, 'text/html');
-        const links = doc.getElementsByTagName('a');
+        
+        // Get all links but filter out nested links
+        const links = Array.from(doc.getElementsByTagName('a')).filter(link => {
+            // Check if this link is nested inside another link
+            return !link.closest('a:not(:scope)');
+        });
 
-        for (let i = 0; i < links.length; i++) {
-            const link = links[i];
+        links.forEach(link => {
             const href = link.getAttribute('href');
             
             // Skip if no href
-            if (!href) continue;
+            if (!href) return;
             
             // Process only newseasonsmarket.com links
             if (href.includes('newseasonsmarket.com')) {
@@ -116,7 +120,7 @@ const HtmlEditor = () => {
                 const newUrl = `${cleanedUrl}${connector}${utmString}`;
                 link.setAttribute('href', newUrl);
             }
-        }
+        });
 
         // Get the full HTML content including head and body
         const serializer = new XMLSerializer();
