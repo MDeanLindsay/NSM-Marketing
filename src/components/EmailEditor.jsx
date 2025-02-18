@@ -24,9 +24,9 @@ function TemplateEditor() {
     headerBannerImage: '',
     headerBannerLink: '',
     subfeatures: [
-      { image: '', link: '', line1: '', line2: '' },
-      { image: '', link: '', line1: '', line2: '' },
-      { image: '', link: '', line1: '', line2: '' }
+      { image: '', link: '', line1: '', line2: '', line3: '' },
+      { image: '', link: '', line1: '', line2: '', line3: '' },
+      { image: '', link: '', line1: '', line2: '', line3: '' }
     ],
     subBanners: [
       { image: '', link: '' },
@@ -63,9 +63,9 @@ function TemplateEditor() {
         emailBody: emailBody || '',
         termsContent: terms || '',
         subfeatures: [
-          { image: '', link: '', line1: '', line2: '' },
-          { image: '', link: '', line1: '', line2: '' },
-          { image: '', link: '', line1: '', line2: '' }
+          { image: '', link: '', line1: '', line2: '', line3: '' },
+          { image: '', link: '', line1: '', line2: '', line3: '' },
+          { image: '', link: '', line1: '', line2: '', line3: '' }
         ]
       };
     } else if (templateType === 'wfe') {
@@ -85,7 +85,8 @@ function TemplateEditor() {
             image: img.getAttribute('src') || '',
             link: container.querySelector('a')?.getAttribute('href') || '',
             line1: container.querySelector('.subfeature-line1')?.textContent?.trim() || '',
-            line2: container.querySelector('.subfeature-line2')?.textContent?.trim() || ''
+            line2: container.querySelector('.subfeature-line2')?.textContent?.trim() || '',
+            line3: container.querySelector('a.promo.subfeature-line1')?.textContent?.trim() || ''
           };
         }).slice(0, 3),
         subBanners: [
@@ -118,9 +119,9 @@ function TemplateEditor() {
         emailBody: emailBody || '',
         termsContent: terms || '',
         subfeatures: [
-          { image: '', link: '', line1: '', line2: '' },
-          { image: '', link: '', line1: '', line2: '' },
-          { image: '', link: '', line1: '', line2: '' }
+          { image: '', link: '', line1: '', line2: '', line3: '' },
+          { image: '', link: '', line1: '', line2: '', line3: '' },
+          { image: '', link: '', line1: '', line2: '', line3: '' }
         ]
       };
     }
@@ -270,6 +271,22 @@ function TemplateEditor() {
               }
             }
             break;
+          case 'line3':
+            if (subfeatureIndex !== null) {
+              const subfeatureNumber = subfeatureIndex + 1;
+              let count = 0;
+              newContent = newContent.replace(
+                /<!-- Sub Feature Line 3 -->\s*([^<]*)<\/a>/g,
+                (match, text) => {
+                  count++;
+                  if (count === subfeatureNumber) {
+                    return `<!-- Sub Feature Line 3 -->${value}</a>`;
+                  }
+                  return match;
+                }
+              );
+            }
+            break;
           case 'subBannerImage':
           case 'subBannerLink':
             if (subfeatureIndex !== null) {
@@ -308,35 +325,39 @@ function TemplateEditor() {
   return (
     <main className="flex h-[calc(100vh-100px)]">
       <div className="w-1/2 p-4 bg-gray-100 overflow-y-auto">
-        {templateType === 'wfe' && (
-          <div className="mb-6">
+        <div className="mb-6 p-4 border rounded-md">
+          <h3 className="font-medium mb-4">Preview Text Section</h3>
+          {templateType === 'wfe' && (
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Preview Text Header
+              </label>
+              <input
+                type="text"
+                value={template.previewTextHeader}
+                onChange={(e) => updateTemplate('previewTextHeader', e.target.value)}
+                className="w-full p-2 border rounded-md"
+              />
+            </div>
+          )}
+
+          <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Preview Text Header
+              Preview Text
             </label>
             <input
               type="text"
-              value={template.previewTextHeader}
-              onChange={(e) => updateTemplate('previewTextHeader', e.target.value)}
+              value={template.previewText}
+              onChange={(e) => updateTemplate('previewText', e.target.value)}
               className="w-full p-2 border rounded-md"
             />
           </div>
-        )}
-
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Preview Text
-          </label>
-          <input
-            type="text"
-            value={template.previewText}
-            onChange={(e) => updateTemplate('previewText', e.target.value)}
-            className="w-full p-2 border rounded-md"
-          />
         </div>
 
         {templateType === 'offer' || templateType === 'sse' ? (
-          <>
-            <div className="mb-6">
+          <div className="mb-6 p-4 border rounded-md">
+            <h3 className="font-medium mb-4">Main Banner Section</h3>
+            <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Main Banner Image
               </label>
@@ -349,7 +370,7 @@ function TemplateEditor() {
             </div>
 
             {templateType === 'offer' && (
-              <div className="mb-6">
+              <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Main Banner Link
                 </label>
@@ -361,88 +382,100 @@ function TemplateEditor() {
                 />
               </div>
             )}
-          </>
+          </div>
         ) : (
           <>
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Header Banner Image
-              </label>
-              <input
-                type="text"
-                value={template.headerBannerImage}
-                onChange={(e) => updateTemplate('headerBannerImage', e.target.value)}
-                className="w-full p-2 border rounded-md"
-              />
+            <div className="mb-6 p-4 border rounded-md">
+              <h3 className="font-medium mb-4">Header Banner Section</h3>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Header Banner Image
+                </label>
+                <input
+                  type="text"
+                  value={template.headerBannerImage}
+                  onChange={(e) => updateTemplate('headerBannerImage', e.target.value)}
+                  className="w-full p-2 border rounded-md"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Header Banner Link
+                </label>
+                <input
+                  type="text"
+                  value={template.headerBannerLink}
+                  onChange={(e) => updateTemplate('headerBannerLink', e.target.value)}
+                  className="w-full p-2 border rounded-md"
+                />
+              </div>
             </div>
 
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Header Banner Link
-              </label>
-              <input
-                type="text"
-                value={template.headerBannerLink}
-                onChange={(e) => updateTemplate('headerBannerLink', e.target.value)}
-                className="w-full p-2 border rounded-md"
-              />
-            </div>
+            <div className="mb-6 p-4 border rounded-md">
+              <h3 className="font-medium mb-4">Main Banner Section</h3>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Main Banner Image
+                </label>
+                <input
+                  type="text"
+                  value={template.mainBannerImage}
+                  onChange={(e) => updateTemplate('mainBannerImage', e.target.value)}
+                  className="w-full p-2 border rounded-md"
+                />
+              </div>
 
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Main Banner Image
-              </label>
-              <input
-                type="text"
-                value={template.mainBannerImage}
-                onChange={(e) => updateTemplate('mainBannerImage', e.target.value)}
-                className="w-full p-2 border rounded-md"
-              />
-            </div>
-
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Main Banner Link
-              </label>
-              <input
-                type="text"
-                value={template.mainBannerLink}
-                onChange={(e) => updateTemplate('mainBannerLink', e.target.value)}
-                className="w-full p-2 border rounded-md"
-              />
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Main Banner Link
+                </label>
+                <input
+                  type="text"
+                  value={template.mainBannerLink}
+                  onChange={(e) => updateTemplate('mainBannerLink', e.target.value)}
+                  className="w-full p-2 border rounded-md"
+                />
+              </div>
             </div>
           </>
         )}
 
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Email Body
-          </label>
-          <DraftEditor
-            key={`email-body-${templateType}-${template.emailBody}`}
-            content={template.emailBody}
-            onChange={(html) => updateTemplate('emailBody', html)}
-            defaultFontSize="18"
-          />
+        <div className="mb-6 p-4 border rounded-md">
+          <h3 className="font-medium mb-4">Email Content</h3>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Email Body
+            </label>
+            <DraftEditor
+              key={`email-body-${templateType}-${template.emailBody}`}
+              content={template.emailBody}
+              onChange={(html) => updateTemplate('emailBody', html)}
+              defaultFontSize="18"
+            />
+          </div>
         </div>
 
         {(templateType === 'offer' || templateType === 'sse') && (
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Terms & Conditions
-            </label>
-            <DraftEditor
-              key={`terms-content-${templateType}-${template.termsContent}`}
-              content={template.termsContent}
-              onChange={(html) => updateTemplate('termsContent', html)}
-              defaultFontSize="12"
-            />
+          <div className="mb-6 p-4 border rounded-md">
+            <h3 className="font-medium mb-4">Terms & Conditions Section</h3>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Terms & Conditions
+              </label>
+              <DraftEditor
+                key={`terms-content-${templateType}-${template.termsContent}`}
+                content={template.termsContent}
+                onChange={(html) => updateTemplate('termsContent', html)}
+                defaultFontSize="12"
+              />
+            </div>
           </div>
         )}
 
         {templateType === 'wfe' && template.subfeatures?.map((subfeature, index) => (
           <div key={index} className="mb-6 p-4 border rounded-md">
-            <h3 className="font-medium mb-4">Subfeature {index + 1}</h3>
+            <h3 className="font-medium mb-4">Flyer Feature {index + 1}</h3>
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Image URL</label>
@@ -477,6 +510,15 @@ function TemplateEditor() {
                   type="text"
                   value={subfeature.line2}
                   onChange={(e) => updateTemplate('line2', e.target.value, index)}
+                  className="w-full p-2 border rounded-md"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Line 3 (CTA Text)</label>
+                <input
+                  type="text"
+                  value={subfeature.line3}
+                  onChange={(e) => updateTemplate('line3', e.target.value, index)}
                   className="w-full p-2 border rounded-md"
                 />
               </div>
