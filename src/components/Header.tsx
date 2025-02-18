@@ -18,6 +18,7 @@ export default function Header() {
         </Link>
         <nav className="flex gap-8 ml-12">
           <Link href="/utms" className="text-gray-600 hover:text-gray-900 text-xl font-nsm h-[75px] flex items-center">UTM Builder</Link>
+          <Link href="/html" className="text-gray-600 hover:text-gray-900 text-xl font-nsm h-[75px] flex items-center">UTM Appender</Link>
           <div className="relative group">
             <div className="text-gray-600 hover:text-gray-900 text-xl font-nsm cursor-pointer h-[75px] flex items-center">
               Email Builder
