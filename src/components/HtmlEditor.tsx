@@ -118,8 +118,18 @@ const HtmlEditor = () => {
             }
         }
 
-        // Convert back to string
-        setHtmlOutput(doc.body.innerHTML);
+        // Get the full HTML content including head and body
+        const serializer = new XMLSerializer();
+        const fullHtml = serializer.serializeToString(doc);
+        
+        // Clean up the serialized HTML by removing XML artifacts
+        const cleanHtml = fullHtml
+            .replace(/xmlns="http:\/\/www\.w3\.org\/1999\/xhtml"/g, '')
+            .replace(/<(\/?)html>/g, '<$1html>')
+            .replace(/<(\/?)head>/g, '<$1head>')
+            .replace(/<(\/?)body>/g, '<$1body>');
+
+        setHtmlOutput(cleanHtml);
     };
 
     const copyToClipboard = async () => {
@@ -240,17 +250,14 @@ const HtmlEditor = () => {
             <div className="w-1/2 flex flex-col">
                 <div className="flex-1 bg-white">
                     <iframe
-                        srcDoc={`
+                        srcDoc={htmlOutput || `
                             <!DOCTYPE html>
                             <html>
                                 <head>
                                     <meta charset="UTF-8">
-                                    <style>
-                                        body { margin: 0; padding: 0; }
-                                    </style>
                                 </head>
                                 <body>
-                                    ${htmlOutput}
+                                    <p>HTML preview will appear here...</p>
                                 </body>
                             </html>
                         `}
