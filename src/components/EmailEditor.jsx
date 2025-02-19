@@ -326,11 +326,23 @@ function TemplateEditor() {
     <main className="flex h-[calc(100vh-100px)]">
       <div className="w-1/2 p-4 bg-gray-100 overflow-y-auto">
         <div className="mb-6 p-4 border rounded-md">
-          <h3 className="font-medium mb-4">Preview Text Section</h3>
+          <h3 className="font-medium mb-4">Preview</h3>
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Text 1
+            </label>
+            <input
+              type="text"
+              value={template.previewText}
+              onChange={(e) => updateTemplate('previewText', e.target.value)}
+              className="w-full p-2 border rounded-md"
+            />
+          </div>
+
           {templateType === 'wfe' && (
-            <div className="mb-4">
+            <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Preview Text Header
+                Text 2
               </label>
               <input
                 type="text"
@@ -340,26 +352,14 @@ function TemplateEditor() {
               />
             </div>
           )}
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Preview Text
-            </label>
-            <input
-              type="text"
-              value={template.previewText}
-              onChange={(e) => updateTemplate('previewText', e.target.value)}
-              className="w-full p-2 border rounded-md"
-            />
-          </div>
         </div>
 
         {templateType === 'offer' || templateType === 'sse' ? (
           <div className="mb-6 p-4 border rounded-md">
-            <h3 className="font-medium mb-4">Main Banner Section</h3>
+            <h3 className="font-medium mb-4">Main Banner</h3>
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Main Banner Image
+                Image
               </label>
               <input
                 type="text"
@@ -372,7 +372,7 @@ function TemplateEditor() {
             {templateType === 'offer' && (
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Main Banner Link
+                  Link
                 </label>
                 <input
                   type="text"
@@ -386,10 +386,10 @@ function TemplateEditor() {
         ) : (
           <>
             <div className="mb-6 p-4 border rounded-md">
-              <h3 className="font-medium mb-4">Header Banner Section</h3>
+              <h3 className="font-medium mb-4">Header Banner</h3>
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Header Banner Image
+                  Image
                 </label>
                 <input
                   type="text"
@@ -401,7 +401,7 @@ function TemplateEditor() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Header Banner Link
+                  Link
                 </label>
                 <input
                   type="text"
@@ -413,10 +413,10 @@ function TemplateEditor() {
             </div>
 
             <div className="mb-6 p-4 border rounded-md">
-              <h3 className="font-medium mb-4">Main Banner Section</h3>
+              <h3 className="font-medium mb-4">Main Banner</h3>
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Main Banner Image
+                  Image
                 </label>
                 <input
                   type="text"
@@ -428,7 +428,7 @@ function TemplateEditor() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Main Banner Link
+                  Link
                 </label>
                 <input
                   type="text"
@@ -444,9 +444,6 @@ function TemplateEditor() {
         <div className="mb-6 p-4 border rounded-md">
           <h3 className="font-medium mb-4">Email Content</h3>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Email Body
-            </label>
             <DraftEditor
               key={`email-body-${templateType}-${template.emailBody}`}
               content={template.emailBody}
@@ -458,11 +455,8 @@ function TemplateEditor() {
 
         {(templateType === 'offer' || templateType === 'sse') && (
           <div className="mb-6 p-4 border rounded-md">
-            <h3 className="font-medium mb-4">Terms & Conditions Section</h3>
+            <h3 className="font-medium mb-4">Terms & Conditions</h3>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Terms & Conditions
-              </label>
               <DraftEditor
                 key={`terms-content-${templateType}-${template.termsContent}`}
                 content={template.termsContent}
@@ -478,7 +472,7 @@ function TemplateEditor() {
             <h3 className="font-medium mb-4">Flyer Feature {index + 1}</h3>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Image URL</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Image</label>
                 <input
                   type="text"
                   value={subfeature.image}
@@ -514,7 +508,7 @@ function TemplateEditor() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Line 3 (CTA Text)</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Line 3</label>
                 <input
                   type="text"
                   value={subfeature.line3}
@@ -531,7 +525,7 @@ function TemplateEditor() {
             <h3 className="font-medium mb-4">Sub Banner {index + 1}</h3>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Image URL</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Image</label>
                 <input
                   type="text"
                   value={banner.image}
