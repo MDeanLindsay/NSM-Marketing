@@ -2,7 +2,6 @@
 
 import dynamic from 'next/dynamic';
 import Header from '@/components/Header';
-import { Analytics } from "@vercel/analytics/react"
 
 const HtmlEditor = dynamic(
   () => import('@/components/HtmlEditor'),
@@ -16,7 +15,6 @@ export default function HtmlPage() {
       <div className="flex-1 overflow-auto pt-[75px]">
         <main className="min-h-0">
           <HtmlEditor />
-          <Analytics/>
         </main>
       </div>
     </div>

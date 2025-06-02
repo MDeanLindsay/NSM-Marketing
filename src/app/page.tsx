@@ -1,5 +1,4 @@
 'use client';
-import { Analytics } from "@vercel/analytics/react"
 import Header from '@/components/Header';
 import Image from 'next/image';
 
@@ -21,7 +20,6 @@ export default function Home() {
           <p className="text-gray-600 text-xl font-nsm mt-4">
             Click a tool from the header to begin!
           </p>
-          <Analytics/>
         </main>
       </div>
     </div>

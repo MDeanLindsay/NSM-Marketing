@@ -1,7 +1,6 @@
 'use client';
-import { Analytics } from "@vercel/analytics/react"
-import UTMGenerator from '@/components/utmGenerator';
 import Header from '@/components/Header';
+import UTMGenerator from '@/components/utmGenerator';
 
 export default function UTMsPage() {
   return (
@@ -12,7 +11,6 @@ export default function UTMsPage() {
           <div className="w-full max-w-[1500px]">
             <UTMGenerator />
           </div>
-          <Analytics/>
         </main>
       </div>
     </div>

@@ -1,5 +1,4 @@
 'use client';
-import { Analytics } from "@vercel/analytics/react"
 import { useState, useEffect, useCallback, Suspense } from 'react';
 import dynamic from 'next/dynamic';
 import { useSearchParams, usePathname } from 'next/navigation';
@@ -593,7 +592,6 @@ function TemplateEditor() {
           />
         </div>
       </div>
-      <Analytics />
     </main>
   );
 }
