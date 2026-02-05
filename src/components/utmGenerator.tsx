@@ -1,7 +1,9 @@
 import { useState } from 'react';
 
+type Mode = 'email' | 'social' | 'directMail' | 'store';
+
 const UTMGenerator = () => {
-    const [mode, setMode] = useState<'email' | 'social'>('email');
+    const [mode, setMode] = useState<Mode>('email');
     const [rows, setRows] = useState([{
         id: '1',
         formData: {
@@ -15,46 +17,85 @@ const UTMGenerator = () => {
         generatedUTM: ''
     }]);
 
-    const sourceOptions = {
-        social: [
-            { value: 'facebook', label: 'Facebook' },
-            { value: 'instagram', label: 'Instagram' },
-            { value: 'meta', label: 'Meta' },
-            { value: 'pinterest', label: 'Pinterest' },
-            { value: 'tiktok', label: 'TikTok' },
-            { value: 'twitter', label: 'Twitter' },
-            { value: 'youtube', label: 'Youtube' }
-        ],
+    const sourceOptions: Record<Mode, { value: string; label: string }[]> = {
         email: [
             { value: 'clutch', label: 'Clutch' },
-            { value: 'mailchimp', label: 'Mailchimp' },
+            { value: 'mailchimp', label: 'Mailchimp' }
+        ],
+        social: [
+            { value: 'fb-ig', label: 'Facebook/Instagram' }
+        ],
+        directMail: [
+            { value: 'direct_mail', label: 'Direct Mail' }
+        ],
+        store: [
+            { value: 'store', label: 'Store' }
         ]
     };
 
-    const mediumOptions = {
-        social: [
-            { value: 'cpc', label: 'Ad' },
-            { value: 'social', label: 'Social' }
-        ],
+    const mediumOptions: Record<Mode, { value: string; label: string }[]> = {
         email: [
             { value: 'email', label: 'Email' }
+        ],
+        social: [
+            { value: 'social', label: 'Social' }
+        ],
+        directMail: [
+            { value: 'direct_mail', label: 'Direct Mail' }
+        ],
+        store: [
+            { value: 'receipt', label: 'Receipt' },
+            { value: 'collateral', label: 'Collateral' }
         ]
     };
 
-    const campaignOptions = {
-        social: [
-            { value: 'fcbk', label: 'Facebook Ad' },
-            { value: 'fcbkpost', label: 'Facebook Post' },
-            { value: 'instagram', label: 'Instagram Ad' },
-            { value: 'instapost', label: 'Instagram Post' },
-            { value: 'pinterest', label: 'Pinterest Ad' },
-            { value: 'pinpost', label: 'Pinterest Post' },
-        ],
+    const campaignOptions: Record<Mode, { value: string; label: string }[]> = {
         email: [
-            { value: 'offer', label: 'Neighbor Rewards' },
             { value: 'sse', label: 'Single Subject' },
-            { value: 'wfe', label: 'Weekly Flyer' }
-        ]
+            { value: 'wfe', label: 'Weekly Flyer' },
+            { value: 'offer', label: 'Neighbor Rewards' },
+            { value: 'hot_deals', label: 'Hot Deals' },
+            { value: 'seafood_dock_sale', label: 'Seafood Dock Sale' },
+            { value: 'butcher_block_sale', label: 'Butcher Block Sale' },
+            { value: 'reservations', label: 'Reservations' }
+        ],
+        social: [], // Free text input
+        directMail: [
+            { value: 'winter', label: 'Winter' },
+            { value: 'spring', label: 'Spring' },
+            { value: 'summer', label: 'Summer' },
+            { value: 'fall', label: 'Fall' },
+            { value: 'holiday', label: 'Holiday' }
+        ],
+        store: [] // Free text input
+    };
+
+    const contentOptions: Record<Mode, { value: string; label: string }[]> = {
+        email: [
+            { value: 'header1', label: 'Header 1' },
+            { value: 'header2', label: 'Header 2' },
+            { value: 'header3', label: 'Header 3' },
+            { value: 'body1', label: 'Body 1' },
+            { value: 'footer1', label: 'Footer 1' },
+            { value: 'banner1', label: 'Banner 1' },
+            { value: 'banner2', label: 'Banner 2' },
+            { value: 'banner3', label: 'Banner 3' },
+            { value: 'subfeature1', label: 'Subfeature 1' },
+            { value: 'subfeature2', label: 'Subfeature 2' },
+            { value: 'subfeature3', label: 'Subfeature 3' }
+        ],
+        social: [
+            { value: 'link', label: 'Link' }
+        ],
+        directMail: [], // Free text input
+        store: [] // Free text input
+    };
+
+    const dateLabels: Record<Mode, string> = {
+        email: 'Send Date',
+        social: 'Post Date',
+        directMail: 'Start Date',
+        store: 'Date'
     };
 
     const handleInputChange = (rowId: string, e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -72,7 +113,7 @@ const UTMGenerator = () => {
         ));
     };
 
-    const handleModeChange = (newMode: 'social' | 'email') => {
+    const handleModeChange = (newMode: Mode) => {
         setMode(newMode);
         setRows(prevRows => prevRows.map(row => ({
             ...row,
@@ -184,6 +225,24 @@ const UTMGenerator = () => {
                     >
                         Socials
                     </button>
+                    <button
+                        onClick={() => handleModeChange('directMail')}
+                        className={`px-6 py-2 rounded-md font-medium font-nsm ${mode === 'directMail'
+                            ? 'bg-gray-800 text-white'
+                            : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                            } transition-colors duration-200`}
+                    >
+                        Direct Mail
+                    </button>
+                    <button
+                        onClick={() => handleModeChange('store')}
+                        className={`px-6 py-2 rounded-md font-medium font-nsm ${mode === 'store'
+                            ? 'bg-gray-800 text-white'
+                            : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                            } transition-colors duration-200`}
+                    >
+                        Store
+                    </button>
                 </div>
 
                 {/* UTM Rows */}
@@ -272,25 +331,35 @@ const UTMGenerator = () => {
                                                 Campaign
                                             </label>
                                         )}
-                                        <select
-                                            name="campaign"
-                                            value={row.formData.campaign}
-                                            onChange={(e) => handleInputChange(row.id, e)}
-                                            className={`w-full h-[38px] px-2 border border-gray-300 rounded-md ${index === 0 ? '' : 'mt-6'}`}
-                                        >
-                                            <option value="" disabled></option>
-                                            {campaignOptions[mode].map(option => (
-                                                <option key={option.value} value={option.value}>
-                                                    {option.label}
-                                                </option>
-                                            ))}
-                                        </select>
+                                        {campaignOptions[mode].length > 0 ? (
+                                            <select
+                                                name="campaign"
+                                                value={row.formData.campaign}
+                                                onChange={(e) => handleInputChange(row.id, e)}
+                                                className={`w-full h-[38px] px-2 border border-gray-300 rounded-md ${index === 0 ? '' : 'mt-6'}`}
+                                            >
+                                                <option value="" disabled></option>
+                                                {campaignOptions[mode].map(option => (
+                                                    <option key={option.value} value={option.value}>
+                                                        {option.label}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        ) : (
+                                            <input
+                                                type="text"
+                                                name="campaign"
+                                                value={row.formData.campaign}
+                                                onChange={(e) => handleInputChange(row.id, e)}
+                                                className={`w-full h-[38px] px-2 border border-gray-300 rounded-md ${index === 0 ? '' : 'mt-6'}`}
+                                            />
+                                        )}
                                     </div>
 
                                     <div className="w-[150px]">
                                         {index === 0 && (
                                             <label className="block text-sm font-medium font-nsm text-gray-700 mb-2">
-                                                {mode === 'email' ? 'Send Date' : 'Post Date'}
+                                                {dateLabels[mode]}
                                             </label>
                                         )}
                                         <input
@@ -308,13 +377,29 @@ const UTMGenerator = () => {
                                                 Content
                                             </label>
                                         )}
-                                        <input
-                                            type="text"
-                                            name="content"
-                                            value={row.formData.content}
-                                            onChange={(e) => handleInputChange(row.id, e)}
-                                            className={`w-full h-[38px] px-2 border border-gray-300 rounded-md ${index === 0 ? '' : 'mt-6'}`}
-                                        />
+                                        {contentOptions[mode].length > 0 ? (
+                                            <select
+                                                name="content"
+                                                value={row.formData.content}
+                                                onChange={(e) => handleInputChange(row.id, e)}
+                                                className={`w-full h-[38px] px-2 border border-gray-300 rounded-md ${index === 0 ? '' : 'mt-6'}`}
+                                            >
+                                                <option value="" disabled></option>
+                                                {contentOptions[mode].map(option => (
+                                                    <option key={option.value} value={option.value}>
+                                                        {option.label}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        ) : (
+                                            <input
+                                                type="text"
+                                                name="content"
+                                                value={row.formData.content}
+                                                onChange={(e) => handleInputChange(row.id, e)}
+                                                className={`w-full h-[38px] px-2 border border-gray-300 rounded-md ${index === 0 ? '' : 'mt-6'}`}
+                                            />
+                                        )}
                                     </div>
                                 </div>
 
